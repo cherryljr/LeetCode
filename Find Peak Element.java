@@ -1,8 +1,7 @@
-Ê¹ÓÃ¶ş·Ö·¨Ñ°ÕÒ ¾Ö²¿×î´óÖµ¡£
-½«¸´ÔÓ¶ÈÓÅ»¯Îª O(nlogn)
-Õâ¸öÆôÊ¾ÎÒÃÇ£ºÖ»ÒªÊÇ¾ßÓĞÅÅËûĞÔ£¬±ãÄÜ¹»Ê¹ÓÃ¶ş·Ö·¨¡£¶ø²»Ò»¶¨ÒªÇó±ØĞëÅÅĞò¡£
-
-Í¬£ºNowCoder ÖĞµÄ ¶ş·Ö·¨Çó¾Ö²¿×îĞ¡Öµ
+é€šè¿‡äºŒåˆ†æ³•æ¥æŸ¥æ‰¾ å±€éƒ¨æœ€å¤§å€¼ã€‚
+ä¸ NowCoder ä¸­çš„ äºŒåˆ†æ³•æŸ¥æ‰¾å±€éƒ¨æœ€å°å€¼ è§£æ³•ç›¸åŒã€‚
+è¿™é“é¢˜ç»™äº†æˆ‘ä»¬ä¸€ä¸ªå¯ç¤ºï¼š
+	åªè¦æ˜¯å…·æœ‰ æ’ä»–æ€§ï¼Œéƒ½èƒ½å¤Ÿä½¿ç”¨äºŒåˆ†æ³•ã€‚è€Œä¸ä¸€å®šè¦ç»è¿‡æ’åºã€‚
 
 /*
 A peak element is an element that is greater than its neighbors.
@@ -18,7 +17,7 @@ For example, in array [1, 2, 3, 1], 3 is a peak element and your function should
 
 class Solution {
     public int findPeakElement(int[] nums) {
-		if (nums == null || nums.length <= 1) {
+        if (nums == null || nums.length <= 1) {
 			return 0;
 		}
 		

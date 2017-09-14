@@ -1,8 +1,8 @@
-﻿使用二分法寻找 局部最大值。
-将复杂度优化为 O(nlogn)
-这个启示我们：只要是具有排他性，便能够使用二分法。而不一定要求必须排序。
+ʹ�ö��ַ�Ѱ�� �ֲ����ֵ��
+�����Ӷ��Ż�Ϊ O(nlogn)
+�����ʾ���ǣ�ֻҪ�Ǿ��������ԣ����ܹ�ʹ�ö��ַ�������һ��Ҫ���������
 
-同：NowCoder 中的 二分法求局部最小值
+ͬ��NowCoder �е� ���ַ���ֲ���Сֵ
 
 /*
 A peak element is an element that is greater than its neighbors.

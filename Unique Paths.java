@@ -1,5 +1,5 @@
 There is no doubt that it's a very basic DP question. O(mn)
-But it also has a very smart method -- using formula. O(n)
+But it also has a very smart method -- using combinaiton formula. O(n)
 
 First of all you should understand that we need to do n + m - 2 movements :
 m - 1 down, n - 1 right, because we start from cell (1, 1).
@@ -63,4 +63,4 @@ class Solution {
 
         return (int)Math.round(res);
     }
-}
+} 

@@ -14,7 +14,7 @@ So I shrink the search space from [1 10] to [1 5].
 Otherwise the duplicate number is in the second half so for the next step the search space would be [6 10].
 
 Solution 2: Two Pointers  O(n)
-The main idea is the same with problem Linked List Cycle II,https://leetcode.com/problems/linked-list-cycle-ii/. 
+The main idea is the same with problem Linked List Cycle II, https://leetcode.com/problems/linked-list-cycle-ii/. 
 Use two pointers the fast and the slow. The fast one goes forward two steps each time, 
 while the slow one goes only step each time. They must meet the same item when slow==fast. 
 In fact, they meet in a circle, the duplicate number must be the entry point of the circle when visiting the array from nums[0]. 
@@ -65,18 +65,22 @@ class Solution {
 // Solution 2: Two Pointers  O(n)
 class Solution {
     public int findDuplicate(int[] nums) {
-        int n = nums.length;
-        int slow = n;
-        int fast = n;
-        do {
-            slow = nums[slow-1];
-            fast = nums[nums[fast-1]-1];
-        } while (slow != fast);
-        slow = n;
-        while (slow != fast) {
-            slow = nums[slow-1];
-            fast = nums[fast-1];
+        if (nums.length > 1) {
+            int slow = nums[0];
+            int fast = nums[nums[0]];
+            while (slow != fast) {
+                slow = nums[slow];
+                fast = nums[nums[fast]];
+            }
+
+            fast = 0;
+            while (fast != slow) {
+                fast = nums[fast];
+                slow = nums[slow];
+            }
+            return slow;
         }
-        return slow;
+        
+        return -1;
     }
 }

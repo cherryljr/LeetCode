@@ -39,7 +39,7 @@ The k will be in the range [1, m * n]
 class Solution {
     public int findKthNumber(int m, int n, int k) {
         int start = 1;
-        int end = m * n + 1;
+        int end = m * n;
         
         while (start < end) {
             int mid = start + (end - start) / 2;

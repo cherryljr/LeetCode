@@ -1,4 +1,5 @@
 A good question!
+Solution 1: Turn to histogram
 It is very similar as [Largest Rectangle in Histogram]:
 https://github.com/cherryljr/LintCode/blob/master/Largest%20Rectangle%20in%20Histogram.java
 What we need do is turning this matrix to a histogram.
@@ -9,6 +10,10 @@ and scan and update row by row to find out the largest rectangle of each row.
 For each row, if matrix[row][i] == '1'. height[row][i] += 1, or reset the height[row][i] to zero.
 and accroding the algorithm of [Largest Rectangle in Histogram], to update the maximum area.
 
+Time complexity  : O(n^2). Calculate the height matrix.
+Space complexity : O(n^2). Another matrix of same size is used for height.
+ 
+Solution 2: DP
 Of course, there is another solution which using DP.
 you can click here for details:
 https://discuss.leetcode.com/topic/6650/share-my-dp-solution

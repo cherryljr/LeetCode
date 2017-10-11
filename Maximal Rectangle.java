@@ -15,8 +15,16 @@ Space complexity : O(n^2). Another matrix of same size is used for height.
  
 Solution 2: DP
 Of course, there is another solution which using DP.
-you can click here for details:
-https://discuss.leetcode.com/topic/6650/share-my-dp-solution
+The DP solution proceeds row by row, starting from the first row. 
+Let the maximal rectangle area at row i and column j be computed by [right(i,j) - left(i,j)] * height(i,j).
+
+All the 3 variables left, right, and height can be determined by the information from previous row, 
+and also information from the current row. So it can be regarded as a DP solution. The transition equations are:
+
+    left(i,j) = max(left(i-1,j), cur_left),     cur_left can be determined from the current row
+    right(i,j) = min(right(i-1,j), cur_right),  cur_right can be determined from the current row
+    height(i,j) = height(i-1,j) + 1,            if matrix[i][j]=='1';
+    height(i,j) = 0,                            if matrix[i][j]=='0'
 
 /*
 Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
@@ -30,6 +38,7 @@ For example, given the following matrix:
 Return 6.
 */
 
+// Solution 1: Turn to histogram
 class Solution {
     public int maximalRectangle(char[][] matrix) {
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
@@ -75,5 +84,64 @@ class Solution {
         }
         
         return max;
+    }
+}
+
+// Solution 2: DP
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        if (matrix == null || matrix.length == 0
+           || matrix[0] == null || matrix[0].length == 0) {
+            return 0;
+        }
+        
+        final int rows = matrix.length;
+        final int cols = matrix[0].length;
+        int[] left = new int[cols];
+        int[] right = new int[cols];
+        int[] height = new int[cols];
+        Arrays.fill(left, 0); 
+        Arrays.fill(right, cols); 
+        Arrays.fill(height, 0);
+        
+        int maxA = 0;
+        for (int i = 0; i < rows; i++) {
+            int cur_left = 0, cur_right = cols; 
+            // compute height (can do this from either side)
+            for (int j = 0; j < cols; j++) { 
+                if (matrix[i][j] == '1') {
+                    height[j]++; 
+                }
+                else {
+                    height[j]=0;
+                }
+            }
+            // compute left (from left to right)
+            for (int j = 0; j < cols; j++) { 
+                if (matrix[i][j] == '1') {
+                    left[j]=Math.max(left[j], cur_left);
+                }
+                else {
+                    left[j] = 0; 
+                    cur_left = j + 1;
+                }      
+            }
+            // compute right (from right to left)
+            for (int j = cols - 1; j >= 0; j--) {
+                if (matrix[i][j] == '1') {
+                    right[j] = Math.min(right[j], cur_right);
+                }
+                else {
+                    right[j] = cols; 
+                    cur_right = j;   
+                }
+            }
+            // compute the area of rectangle (can do this from either side)
+            for (int j = 0; j < cols; j++) {
+                maxA = Math.max(maxA, (right[j] - left[j]) * height[j]);
+            }   
+        }
+        
+        return maxA;
     }
 }

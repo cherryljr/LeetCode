@@ -16,7 +16,7 @@ Space complexity : O(n^2). Another matrix of same size is used for height.
 Solution 2: DP
 Of course, there is another solution which using DP.
 The DP solution proceeds row by row, starting from the first row. 
-Let the maximal rectangle area at row i and column j be computed by [right(i,j) - left(i,j)] * height(i,j).
+Let the maximal rectangle area at row i and column j be computed by [right(i,j) - left(i,j)] * height(i,j). 
 
 All the 3 variables left, right, and height can be determined by the information from previous row, 
 and also information from the current row. So it can be regarded as a DP solution. The transition equations are:

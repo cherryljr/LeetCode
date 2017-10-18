@@ -26,7 +26,7 @@ find the max sum of a rectangle in the matrix such that its sum is no larger tha
 
 Example:
 Given matrix = [
-  [1,  0, 1],
+  [1,  0, 1], 
   [0, -2, 3]
 ]
 k = 2
@@ -81,7 +81,7 @@ class Solution {
             }
 			set.add(sum);
 		}
-        
+         
 		return max;
 	}
 }

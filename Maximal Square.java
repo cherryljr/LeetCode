@@ -77,7 +77,7 @@ public class Solution {
             }
         }
         
-		// calculate the max square row by row
+	// calculate the max square row by row
         int maxArea = 0;
         for (int i = 0; i < rows; i++) {
             maxArea = Math.max(maxArea, maxAreaInHist(heights[i]));
@@ -130,7 +130,8 @@ public class Solution {
                                         Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
                     maxlen = Math.max(dp[i][j], maxlen);
                 } else {
-					dp[i][j] = 0;	// in fact, this exp is unnecessary, cuz the value of dp[i][j] is 0 after initial.
+                    dp[i][j] = 0;	// in fact, this exp is unnecessary, cuz the value of dp[i][j] is 0 after initial.
+                }
             }
         }
         

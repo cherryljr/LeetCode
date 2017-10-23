@@ -19,6 +19,32 @@ The input array size is in the range of [1, 20000].
 n is a non-negative integer which won't exceed the input array size.
 */
 
+// Method 1: Very Easy Solution
+class Solution {
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        if (flowerbed == null || flowerbed.length == 0) {
+            return false;
+        }
+        
+        int count = 0;
+        for (int i = 0; i < flowerbed.length; i++) {
+            // the curr plot must be empty && the previous plot is empty && the next plot is empty
+            // exception: the first plot is empty || the last is empty
+            if (flowerbed[i] == 0 && (i == 0 || flowerbed[i - 1] == 0)
+            && (i == flowerbed.length - 1 || flowerbed[i + 1] == 0)) {
+                flowerbed[i] = 1;
+                count++;
+            }
+            if (count >= n) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}
+
+// Method 2
 class Solution {
     public boolean canPlaceFlowers(int[] flowerbed, int n) {
         if (flowerbed == null || flowerbed.length == 0) {
@@ -26,8 +52,8 @@ class Solution {
         }
         
         int len = flowerbed.length;
-        int count = 1;
-        int rst = 0;
+        int count = 1;  // count the number of continous empty plots.
+        int rst = 0;    // the total number of empty plots that coule be planted.
         for (int i = 0; i < len; i++) {
             if (flowerbed[i] == 0) {
                 count++;

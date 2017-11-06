@@ -54,7 +54,10 @@ public class Solution {
             else if (crossProduct > 0) {
                 gotPositive = true;
             }
-            if (gotNegative && gotPositive) return false;
+            // if the crossProduct doesn't have the same sign, then it's concave polygon
+            if (gotNegative && gotPositive) {
+                return false;
+            }
         }
     
         // If we got this far, the polygon is convex.

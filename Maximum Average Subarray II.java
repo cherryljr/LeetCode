@@ -25,7 +25,6 @@ Thus, we need to set mid as the new maximum element and continue the process.
 Every time after checking the possiblility with a new mid value, at the end, we need to settle at some value as the average. 
 But, we can observe that eventually, we'll reach a point, where we'll keep moving near some same value with very small changes. 
 In order to keep our precision in control, we limit this process to 1e-6 precision, 
-In order to keep our precision in control, we limit this process to 1e-6 precision, 
 by making use of error and continuing the process till error becomes lesser than 0.000001 .
 
 Good Explanation here:

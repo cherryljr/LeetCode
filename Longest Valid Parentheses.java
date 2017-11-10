@@ -30,25 +30,25 @@ public class Solution {
         if (str == null || str.length() == 0) {
 			return false;
 		}
-        
+    
 		int status = 0;
 		for (char c : str.toCharArray()) {
-            // character is '(' then status++
-			if (c == '(') {
-                status++;
-            // character is ')' then status--
-            // if status < 0 return false
-            } else if (c == ')') {
-                if (--status < 0) {
-                    return false;
-                } 
-            // illegal character
-            } else {
+        // character is '(' then status++
+		if (c == '(') {
+            status++;
+        // character is ')' then status--
+        // if status < 0 return false
+        } else if (c == ')') {
+            if (--status < 0) {
                 return false;
-            }
-		}
+            } 
+            // illegal character
+        } else {
+            return false;
+        }
+	}
         
-		return status == 0;
+	return status == 0;
     }
 }
 

@@ -1,3 +1,4 @@
+```
 Algorithm
     In this approach, we make use of a hashmap mapmap 
     which stores the number of times an element occurs in the array along with the element's value in the form (num, count_num), 
@@ -16,7 +17,8 @@ Algorithm
 Complexity Analysis
     Time  complexity : O(n). One loop is required to fill map and one for traversing the map.
     Space complexity : O(n). In worst case map size grows upto size n.
-
+```
+        
 /*
 We define a harmonious array is an array where the difference between its maximum value and its minimum value is exactly 1.
 Now, given an integer array, you need to find the length of its longest harmonious subsequence among all its possible subsequences.

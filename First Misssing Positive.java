@@ -9,7 +9,7 @@ As we all know, the operation of HashMap will cost O(1) time once.
 But this method will cost O(n) extra space.
 So, it can't meet the demand also.
 
-Third Method, 
+Third Method - Put each number in its right place.
 The first missing positive must be within [1, index + 1].
 The reason is like you put index balls into index+1 bins, there must be a bin empty, the empty bin can be viewed as the missing number.
 
@@ -34,10 +34,10 @@ class Solution {
         if (nums == null || nums.length == 0) {
             return 1;
         }
-        // Traverse the array
+        
         for (int i = 0; i < nums.length; i++) {
-		
-            while (nums[i] > 0 && nums[i] < i + 1 && nums[i] != nums[nums[i] - 1]) {
+	    // Swap the number until they are in the right position.
+            while (nums[i] >= 1 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
                 int temp = nums[nums[i] - 1];
                 nums[nums[i] - 1] = nums[i];
                 nums[i] = temp;

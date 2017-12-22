@@ -1,16 +1,14 @@
-Using symmetic transformation implement matrix's rotate transformation
-    
 /*
 You are given an n x n 2D matrix representing an image.
 Rotate the image by 90 degrees (clockwise).
 
 Note:
-You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. 
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.
 DO NOT allocate another 2D matrix and do the rotation.
 
 Example 1:
 
-Given input matrix = 
+Given input matrix =
 [
   [1,2,3],
   [4,5,6],
@@ -32,7 +30,7 @@ Given input matrix =
   [ 2, 4, 8,10],
   [13, 3, 6, 7],
   [15,14,12,16]
-], 
+],
 
 rotate the input matrix in-place such that it becomes:
 [
@@ -43,19 +41,20 @@ rotate the input matrix in-place such that it becomes:
 ]
 */
 
+// Main idea: Using symmetic transformation implement matrix's rotate transformation
 /*
  * clockwise rotate
  * first reverse up to down, then swap the symmetry by diagonal line
  * 1 2 3     7 8 9     7 4 1
  * 4 5 6  => 4 5 6  => 8 5 2
  * 7 8 9     1 2 3     9 6 3
-*/
+ */
 class Solution {
     public void rotate(int[][] matrix) {
         if (matrix == null || matrix.length == 0) {
             return;
         }
-        
+
         int rows = matrix.length;
         int cols = matrix[0].length;
         // Reverse top to down
@@ -83,13 +82,13 @@ class Solution {
  * 1 2 3     3 2 1     3 6 9
  * 4 5 6  => 6 5 4  => 2 5 8
  * 7 8 9     9 8 7     1 4 7
-*/
+ */
 class Solution {
     public void anti_rotate(int[][] matrix) {
         if (matrix == null || matrix.length == 0) {
             return;
         }
-        
+
         int rows = matrix.length;
         int cols = matrix[0].length;
         // Reverse left to right

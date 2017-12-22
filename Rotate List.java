@@ -9,6 +9,15 @@ return 4->5->1->2->3->NULL.
 */
 
 /**
+ * Approach 1: Using the tricks same as Rotate Array
+ * 三步翻转法
+ * 但是 Java 中因为没有指针，链表实现该方法较为繁琐。
+ * 这里有关于旋转字符串的详细介绍：
+ * https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md
+ */
+
+/**
+ * Approach 2: Split the list and move it to the end.
  * Since n may be a large number compared to the length of list. So we need to know the length of linked list.
  * Let's  start with an example.
  *   Given [0,1,2], rotate 1 steps to the right -> [2,0,1].

@@ -46,7 +46,9 @@ Same with other integers chosen by the first player, the second player will alwa
  *
  * 复杂度分析：
  * 除了特殊情况外我们需要计算所有的状态，且每个状态只需要计算一次，则时间和空间复杂度均为O(2^n)。
- * n 为 maxChoosableInteger.
+ * n 为 maxChoosableInteger. （如果不使用记忆化搜索，时间复杂度将是：n!）
+ * 
+ * 参考：https://leetcode.com/problems/can-i-win/discuss/
  */
 class Solution {
     int[] dp;
@@ -80,7 +82,7 @@ class Solution {
             for (int i = 1; i < used.length; i++) {
                 if (!used[i]) {
                     used[i] = true;
-
+                    // 检查选择该数能否赢得游戏 （即让另一个玩家输掉游戏）
                     if (!helper(desiredTotal - i)) {
                         dp[key] = 1;
                         used[i] = false;

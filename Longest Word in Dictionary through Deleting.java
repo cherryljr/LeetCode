@@ -1,40 +1,21 @@
-We nedd to find the longest subsequence in the dictionary. So it means that
-we can't sort the string s => can't calculate the occurence of every character then match them.
-
-There are two solutions:
-Solution 1:
-We sort the input dictionary by longest length and lexicography. -> Rewrite the Comparator
-Then, we iterate through the dictionary exactly once. 
-In the process, the first dictionary word in the sorted dictionary 
-which appears as a subsequence in the input string s must be the desired solution.
-
-An alternate, more efficient solution which avoids sorting the dictionary. (sort will cost much time)
-Traverse the dictionary as Solution 1.
-Update the result if it need.
-1. the length of current string > the result's length
-2. the length of cur and rst is the same && the current string has smaller lexicographical order.
-Time Complexity: O(nk), where n is the length of string s and k is the number of words in the dictionary.
-
-中文解释：http://www.cnblogs.com/grandyang/p/6523344.html
-
 /*
-Given a string and a string dictionary, 
-find the longest string in the dictionary that can be formed by deleting some characters of the given string. 
-If there are more than one possible results, return the longest word with the smallest lexicographical order. 
+Given a string and a string dictionary,
+find the longest string in the dictionary that can be formed by deleting some characters of the given string.
+If there are more than one possible results, return the longest word with the smallest lexicographical order.
 If there is no possible result, return the empty string.
 
 Example 1:
 Input:
 s = "abpcplea", d = ["ale","apple","monkey","plea"]
 
-Output: 
+Output:
 "apple"
 
 Example 2:
 Input:
 s = "abpcplea", d = ["a","b","c"]
 
-Output: 
+Output:
 "a"
 
 Note:
@@ -43,58 +24,86 @@ The size of the dictionary won't exceed 1,000.
 The length of all the strings in the input won't exceed 1,000.
 */
 
-// Solution 1: Sort the Dictionary
+/**
+ * Approach 1: Sorting and Checking Subsequence
+ * Algorithm
+ * The matching condition in the given problem requires that
+ * we need to consider the matching string in the dictionary with the longest length and in case of same length,
+ * the string which is smallest lexicographically.
+ *To ease the searching process, we can sort the given dictionary's strings based on the same criteria,
+ * such that the more favorable string appears earlier in the sorted dictionary.
+ *
+ * Now, instead of performing the deletions in s,
+ * we can directly check if any of the words given in the dictionary(say x) is a subsequence of the given string s,
+ * starting from the beginning of the dictionary.
+ * This is because, if xx is a subsequence of s, we can obtain x by performing delete operations on s.
+ * If x is a subsequence of s every character of x will be present in s.
+ *
+ * Complexity Analysis
+ * Time complexity : O(x*n*logn + n*x).
+ * Here n refers to the number of strings in list d and x refers to average string length.
+ * Sorting takes O(nlogn) and isSubsequence takes O(x) to check whether a string is a subsequence of another string or not.
+ * Space complexity : O(logn). Sorting takes O(logn) space in average case.
+ */
 class Solution {
     public String findLongestWord(String s, List<String> d) {
-        Collections.sort(d, new Comparator<String>() {
-            public int compare(String a, String b) {
-                if (a.length() == b.length()) {
-                    // smaller lexicographical order
-                    return a.compareTo(b);
-                }
-                // longer length
-                return b.length() - a.length();
-            }
-        });
-        
-        for (String dic : d) {
-            int i = 0;
-            for (char c : s.toCharArray()) {
-                if (i < dic.length() && c == dic.charAt(i)) {
-                    i++;
-                }
-            }
-            if (i == dic.length()) {
-                return dic;
+        Collections.sort(d, (a, b) -> a.length() == b.length() ?
+            a.compareTo(b) : b.length() - a.length());
+
+        for (String word : d) {
+            if (isSubsequence(word, s)) {
+                return word;
             }
         }
         return "";
     }
-}
 
-// Solution 2: No Sort
-class Solution {
-    public String findLongestWord(String s, List<String> d) {
-        String longest = "";
-        
-        for (String dic : d) {
-            int i = 0;
-            // the same as Solution 1, traverse the dictionary
-            for (char c : s.toCharArray()) {
-                if (i < dic.length() && c == dic.charAt(i)) {
-                    i++;
-                }
-            }
-            
-            if (i == dic.length() && dic.length() >= longest.length()) {
-                // if current string has longer length or smaller lexicographical order (the same length)
-                if (dic.length() > longest.length() || dic.compareTo(longest) < 0) {
-                    longest = dic;
-                }
+    public boolean isSubsequence(String str1, String str2) {
+        int index1 = 0;
+        for (int index2 = 0; index2 < str2.length() && index1 < str1.length(); index2++) {
+            if (str1.charAt(index1) == str2.charAt(index2)) {
+                index1++;
             }
         }
-        
-        return longest;
+        return index1 == str1.length();
     }
 }
 
+/**
+ * Approach 2: Without Sorting
+ * Since sorting the dictionary could lead to a huge amount of extra effort,
+ * we can skip the sorting and directly look for the strings x in the unsorted dictionary d such that x is a subsequence in s.
+ * If such a string x is found,
+ * we compare it with the other matching strings found till now based on the required length and lexicographic criteria.
+ * Thus, after considering every string in d, we can obtain the required result.
+ *
+ * Complexity Analysis
+ * Time complexity : O(n∗x).
+ * One iteration over all strings is required.
+ * Here n refers to the number of strings in list d and x refers to average string length.
+ * Space complexity : O(x). max_str variable is used.
+ */
+class Solution {
+    public String findLongestWord(String s, List<String> d) {
+        String max_str = "";
+        for (String word : d) {
+            if (isSubsequence(word, s)) {
+                if (word.length() > max_str.length()
+                        || (word.length() == max_str.length() && word.compareTo(max_str) < 0) ) {
+                    max_str = word;
+                }
+            }
+        }
+        return max_str;
+    }
+
+    public boolean isSubsequence(String str1, String str2) {
+        int index1 = 0;
+        for (int index2 = 0; index2 < str2.length() && index1 < str1.length(); index2++) {
+            if (str1.charAt(index1) == str2.charAt(index2)) {
+                index1++;
+            }
+        }
+        return index1 == str1.length();
+    }
+}

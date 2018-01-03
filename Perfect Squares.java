@@ -84,7 +84,7 @@ class Solution {
         while ((n & 3) == 0) {  // n%4 == 0  
             n >>= 2;
         }
-        if ((n & 7) == 7) { // n%4 == 0  
+        if ((n & 7) == 7) { // n%8 == 7  
             return 4;
         }
         

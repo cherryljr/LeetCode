@@ -32,9 +32,8 @@ The substring with start index = 2 is "ab", which is an anagram of "ab".
  * https://github.com/cherryljr/LeetCode/blob/master/Permutation%20in%20String.java
  *
  * The Best Method is Sliding Window
- * This method is so classic and beautiful, you can should read the discussion about it here:
- * https://leetcode.com/problems/find-all-anagrams-in-a-string/discuss/92007/
- * (Believe me, it worth reading)
+ * This method is so classic and beautiful, the Template of Sliding Window is here:
+ * https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
  */
 
 /**
@@ -120,5 +119,57 @@ class Solution {
             }
         }
         return true;
+    }
+}
+
+/**
+ * Approach 3：Using Sliding Window Template
+ * Detail explanations about the template is here:
+ * https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
+ */
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> rst = new ArrayList<>();
+        if (s == null || s.length() == 0 || s.length() < p.length()) {
+            return rst;
+        }
+
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : p.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        // begin - left of window, end - right of window
+        int begin = 0, end = 0;
+        // The number of distinct characters
+        int counter = map.size();
+        
+        while (end < s.length()) {
+            char c = s.charAt(end);
+            if (map.containsKey(c)){
+                map.put(c, map.get(c) - 1);
+                if (map.get(c) == 0) {
+                    counter--;
+                }
+            }
+            end++;
+
+            while (counter == 0) {
+                char tempc = s.charAt(begin);
+                if (map.containsKey(tempc)) {
+                    map.put(tempc, map.get(tempc) + 1);
+                    if (map.get(tempc) > 0) {
+                        counter++;
+                    }
+                }
+
+                if (end - begin == p.length()) {
+                    rst.add(begin);
+                }
+                begin++;
+            }
+        }
+
+        return rst;
     }
 }

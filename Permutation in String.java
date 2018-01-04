@@ -222,3 +222,53 @@ class Solution {
         return true;
     }
 }
+
+/**
+ * Approach 5：Using Sliding Window Template
+ * The detail explanation about template is here:
+ * https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
+ */
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        boolean rst = false;
+        if (s1.length() > s2.length()) {
+            return rst;
+        }
+
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s1.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        int counter = map.size();
+        int begin = 0, end = 0;
+        while (end < s2.length()) {
+            char c = s2.charAt(end);
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c) - 1);
+                if (map.get(c) == 0) {
+                    counter--;
+                }
+            }
+            end++;
+
+            while (counter == 0) {
+                char tempc = s2.charAt(begin);
+                if (map.containsKey(tempc)) {
+                    map.put(tempc, map.get(tempc) + 1);
+                    if (map.get(tempc) > 0) {
+                        counter++;
+                    }
+                }
+
+                if (end - begin == s1.length()) {
+                    rst = true;
+                    return rst;
+                }
+                begin++;
+            }
+        }
+
+        return rst;
+    }
+}

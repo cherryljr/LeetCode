@@ -45,12 +45,12 @@ class Solution {
         int rst = 0;
 
         for (int i = 0; i < rows; i++) {
-            // 矩阵中[i, j]位置上，水平方向从左到右累加的敌人数量
+            // 矩阵中(i, j)位置上，水平方向从左到右累加的敌人数量
             for (int j = 0; j < cols; j++) {
                 int temp = (j == 0 || grid[i][j] == 'W') ? 0 : count_lr[i][j - 1];
                 count_lr[i][j] = grid[i][j] == 'E' ? temp + 1 : temp;
             }
-            // 矩阵中[i, j]位置上，水平方向从右到左累加的敌人数量
+            // 矩阵中(i, j)位置上，水平方向从右到左累加的敌人数量
             for (int j = cols - 1; j >= 0; j--) {
                 int temp = (j == cols - 1 || grid[i][j] == 'W') ? 0 : count_rl[i][j + 1];
                 count_rl[i][j] = grid[i][j] == 'E' ? temp + 1 : temp;
@@ -58,12 +58,12 @@ class Solution {
         }
 
         for (int j = 0; j < cols; j++) {
-            // 矩阵中[i, j]位置上，竖直方向从上到下累加的敌人数量
+            // 矩阵中(i, j)位置上，竖直方向从上到下累加的敌人数量
             for (int i = 0; i < rows; i++) {
                 int temp = (i == 0 || grid[i][j] == 'W') ? 0 : count_ud[i - 1][j];
                 count_ud[i][j] = grid[i][j] == 'E' ? temp + 1 : temp;
             }
-            // 矩阵中[i, j]位置上，竖直方向从下到上累加的敌人数量
+            // 矩阵中(i, j)位置上，竖直方向从下到上累加的敌人数量
             for (int i = rows - 1; i >= 0; i--) {
                 int temp = (i == rows - 1 || grid[i][j] == 'W') ? 0 : count_du[i + 1][j];
                 count_du[i][j] = grid[i][j] == 'E' ? temp + 1 : temp;
@@ -86,7 +86,7 @@ class Solution {
  * Approach 2: Optimized Method
  * 这是在 Discussion 里面看到的一个方法，比较巧妙。具体做法如下：
  * 首先，我们需要一个 rowCnt 变量，用来记录到下一个墙之前的敌人个数。
- * 还需要一个数组colCnt[n]，其中colCnt[j]表示第j列到下一个墙之前的敌人个数。
+ * 还需要一个数组colCnt[n]，其中 colCnt[j] 表示第j列到下一个墙之前的敌人个数。
  * 算法思路是遍历整个数组grid，对于一个位置grid[i][j]:
  * 对于水平方向，如果当前位置是开头一个或者前面一个是墙壁，我们开始从当前位置往后遍历，遍历到末尾或者墙的位置停止，计算敌人个数;
  * 对于竖直方向也是同样，如果当前位置是开头一个或者上面一个是墙壁，我们开始从当前位置向下遍历，遍历到末尾或者墙的位置停止，计算敌人个数.
@@ -120,7 +120,7 @@ class Solution {
                         rowCnt += grid[i][k] == 'E' ? 1 : 0;
                     }
                 }
-                // If above is wall
+                // If above is wall / bound
                 // 1. reset colCnt[j]
                 // 2. scan downwards to count enemies
                 // 3. update colCnt[j]

@@ -49,7 +49,13 @@ class NumArray {
         int mid = start + (end - start) / 2;
         root.left = buildHelper(nums, start, mid);
         root.right = buildHelper(nums, mid + 1, end);
-        root.sum = root.left.sum + root.right.sum;
+        root.sum = 0;
+        if (root.left != null) {
+            root.sum += root.left.sum;
+        }
+        if (root.right != null) {
+            root.sum += root.right.sum;
+        }
         
         return root;
     }

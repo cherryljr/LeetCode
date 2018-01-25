@@ -22,21 +22,33 @@
  * 2. 设 fa 与 son 为其对应的二进制,记 Li 为二进制i结尾的0个数
  *    我们根据性质已知 Lson+1 = Lfa
  *    根据其思想,son的父亲节点就是求最小(在树状数组中son的位置之后的最近的fa)的fa使得 Lson+1 = Lfa
- * 3. index += LowBit(index) 得到的值，正是子节点index的父节点；
- *    应用：update()操作：更新当前结点值，然后向上更新父节点的值。
- * 4. index -= LowBit(index) 得到的是比index小的，第一个未包含index的节点。
+ * 3. LowBit(index) 函数，其作用是求出某一个数的二进制表示中最低的一位1所表示的数，比如 6(0110) 就是 2(0010)
+ *    对此我们想到可以利用 i&(i-1) 这个方法消掉二进制的最后一位，然后在用原数减去它即可：i - i&(i-1)
+ *    但是还有另外一种更加简便的方法：
+ *    首先我们知道，正数的 补码 与 原码 相等；
+ *    其次求负数的补码的简便方式为：把这个数对应的正数的二进制写出来，然后从右向左找到第一个1(这个1就是我们要求的结果，后来的操作就是让这个1能表示出来)，
+ *    这个1和这个1右边的二进制不变，左边的二进制依次取反(包括符号位)，这样就求出的一个数的补码。
+ *    说这个方法主要是让我们理解一个负数的补码在二进制上的特征，然后我们把这个负数对应的正数与该负数与运算一下。
+ *    由于这个1的左边的二进制与正数的原码对应的部分是相反的，所以相与一定都为0；
+ *    由于这个1和这个1右边的二进制都是不变的，因此，相与后还是原来的样子，故，这样运算出来的结果就是LowBit(index)的结果.
+ *    即：index & -index
+ * 4. index += LowBit(index) 得到的值，正是子节点index的父节点；
+ *    应用：update()操作：更新当前结点值，因为会影响到其父节点的值，因此需要向上更新父节点的值。
+ * 5. index -= LowBit(index) 得到的是比index小的，第一个未包含index的节点。
  *    注意：这里比较绕，可以看图多理解一下，之所以不说是子节点是因为不准确。
  *    比如 BITree[6]是被拆分成 BITree[6](arr[4],arr[5]的和) 和 BITree[4] （arr[0...3]的和）
  *    但是 BITree[4] 并不是 BITree[6] 的子节点，而是向前（比6小）第一个未包含 arr[6] 的节点。
  *    应用：getSum()操作：将当前数 BITree[index] 加入结果,然后向前找第一个他未包含的数,即index -= LowBit(index),重复上述步骤
  *
  * 详细原理的讲解由于篇幅问题可以参见：
+ * http://blog.csdn.net/flushhip/article/details/79165701
  * http://blog.csdn.net/jokerwyt/article/details/51939217
  * https://www.geeksforgeeks.org/binary-indexed-tree-or-fenwick-tree-2/
  * https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/#find
- * 
+ *
  * 应用到了 BITree 的题目有:
- * 
+ * https://github.com/cherryljr/LintCode/blob/master/Interval%20Sum%20II.java
+ * https://github.com/cherryljr/LeetCode/blob/master/Range%20Sum%20Query%20-%20Mutable.java
  */
 public class LeetCode {
     public static void main(String[] args) {

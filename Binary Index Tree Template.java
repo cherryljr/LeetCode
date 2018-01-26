@@ -106,7 +106,7 @@ class BinaryIndexTree {
 
         // Traverse all ancestors and add 'val'
         // Pay attention to the range of index
-        while (index <= size) {
+        while (index < BITree.length) {
             // Add 'val' to current node of BIT Tree
             BITree[index] += val;
             // Update index to that of parent in update view

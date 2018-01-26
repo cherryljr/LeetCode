@@ -142,7 +142,7 @@ class NumArray {
         int delta = val - nums[index];
         nums[index] = val;
         index += 1;
-        while (index <= size) {
+        while (index < BITree.length) {
             BITree[index] += delta;
             index += index & -index;
         }

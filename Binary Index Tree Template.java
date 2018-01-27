@@ -67,8 +67,7 @@ public class LeetCode {
 class BinaryIndexTree {
     /*
     size  --> number of elements present in input array.
-    BITree[0..n] --> Array that represents Binary
-                     Indexed Tree.
+    BITree[0..n] --> Array that represents Binary Indexed Tree.
     arr[0..n-1]  --> Input array.
     */
     int size;
@@ -112,6 +111,10 @@ class BinaryIndexTree {
             // Update index to that of parent in update view
             index += index & -index;
         }
+        // 上述写法是为了大家更加简单地理解与添加注释，实际中我们会采取如下更简洁的写法
+        // for (index += 1; index < BITree.length; index += index & -index) {
+        //     BITree[index] += val;
+        // }
     }
 
     /**
@@ -137,6 +140,10 @@ class BinaryIndexTree {
             // Move index
             index -= index & -index;
         }
+        // 上述写法是为了大家更加简单地理解与添加注释，实际中我们会采取如下更简洁的写法
+        // for (index += 1; index > 0; index -= index & -index) {
+        //     sum += BITree[index];
+        // }
         return sum;
     }
 

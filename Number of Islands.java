@@ -53,10 +53,12 @@ class Solution {
         if (i < 0 || i >= rows || j < 0 || j >= cols || grid[i][j] != '1') {
             return;
         }
-        grid[i][j] = 'x'; // Mark the explored island cells with 'x'.
-        infect(grid, i + 1, j, rows, cols);
-        infect(grid, i - 1, j, rows, cols);
-        infect(grid, i, j + 1, rows, cols);
-        infect(grid, i, j - 1, rows, cols);
+        // Mark the explored island cells with 'x'.
+        grid[i][j] = 'x'; 
+        // Use the directions array to make code more concise
+        int[][] dirs = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+        for (int[] dir : dirs) {
+            infect(grid, i + dir[0], j + dir[1], rows, cols);
+        }
     }
 }

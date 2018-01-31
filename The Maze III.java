@@ -46,69 +46,13 @@ Both the ball and hole exist on an empty space, and they will not be at the same
 The given maze does not contain border (like the red rectangle in the example pictures), but you could assume the border of the maze are all walls.
 The maze contains at least 2 empty spaces, and the width and the height of the maze won't exceed 30.
  */
- 
- 
-// Ordinary Method
-class Solution {
-    public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{ball[0], ball[1]});
-        int m = maze.length, n = maze[0].length;
-        int[][] dir = new int[][]{{1, -1, 0, 0}, {0, 0, 1, -1}};
-        String[] pa = new String[]{"d", "u", "r", "l"};
-        int[][] dp = new int[m][n];
-        String[][] dpPath = new String[m][n];
-        for (int[] d: dp) {
-            Arrays.fill(d, Integer.MAX_VALUE);· 
-        }
-        for (String[] d: dpPath) {
-            Arrays.fill(d, "z");
-        }
-        dp[ball[0]][ball[1]] = 0;
-        dpPath[ball[0]][ball[1]] = "";
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            for (int i = 0; i < 4; i++) {
-                int row = cur[0];
-                int col = cur[1];
-                String path = dpPath[row][col];
-                int dist = dp[row][col];
-                path += pa[i];
-                while (row >= 0 && row < m && col >= 0 && col < n && maze[row][col] != 1) {
-                    if (row == hole[0] && col == hole[1]) {
-                        break;
-                    }
-                    row += dir[0][i];
-                    col += dir[1][i];
-                    dist++;
-                }
-                if (row != hole[0] || col != hole[1]) {
-                    row -= dir[0][i];
-                    col -= dir[1][i];
-                    dist--;
-                }
-                if (row == cur[0] && col == cur[1]) {
-                    continue;
-                }
-                if (dist <= dp[row][col]) { 
-                    if (dist < dp[row][col]) {
-                        dp[row][col] = dist;
-                        dpPath[row][col] = path;
-                    } else if (path.compareTo(dpPath[row][col]) < 0) {
-                        dpPath[row][col] = path;
-                    }
-                    queue.offer(new int[]{row, col});
-                }
-            }
-        }
-        return dpPath[hole[0]][hole[1]].equals("z")? "impossible": dpPath[hole[0]][hole[1]];
-    }
-}
 
 /**
- * Approach 2: BFS
+ * Approach: BFS
  * Using Point Class and PriorityQueue to make the code more concise
  * and easy understanding.
+ *
+ * We can solve this problem on the basis of The Maze.
  */
 class Solution {
     class Point implements Comparable<Point> {
@@ -122,13 +66,15 @@ class Solution {
             this.dis = dis;
             this.path = path;
         }
+        // if both ways have shortest distance, they should be ordered lexicographically
         public int compareTo(Point point) {
             return this.dis == point.dis ? this.path.compareTo(point.path) : this.dis - point.dis;
         }
     }
 
     public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
-        boolean[][] visited = new boolean[maze.length][maze[0].length];
+        int rows = maze.length, cols = maze[0].length;
+        boolean[][] visited = new boolean[rows][cols];
 
         PriorityQueue<Point> pq = new PriorityQueue<>();
         pq.offer(new Point(ball[0], ball[1], 0, ""));
@@ -150,7 +96,7 @@ class Solution {
                 String path = position.path;
 
                 // Explore current direction until hitting a wall or the hole
-                while (x >= 0 && x < maze.length && y >= 0 && y < maze[0].length && maze[x][y] == 0 && (x != hole[0] || y != hole[1])) {
+                while (x >= 0 && x < rows && y >= 0 && y < cols && maze[x][y] == 0 && (x != hole[0] || y != hole[1])) {
                     x += dirs[i][0];
                     y += dirs[i][1];
                     dis += 1;
@@ -164,7 +110,7 @@ class Solution {
                 }
                 if (!visited[x][y]) {
                     visited[position.x][position.y] = true;
-                    pq.offer(new Point(x, y, dis,path + dstr[i]));
+                    pq.offer(new Point(x, y, dis, path + dstr[i]));
                 }
             }
         }

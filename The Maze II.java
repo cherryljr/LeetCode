@@ -150,7 +150,7 @@ class Solution {
  * If the destination can't be reached, the corresponding entry will contain Integer.MAX_VALUE
  *
  * Complexity Analysis
- *  Time complexity :O(m∗n∗max(m,n)). 
+ *  Time complexity :O(m*n*max(m,n)). 
  *  Complete traversal of maze will be done in the worst case.
  *  Here, m and n refers to the number of rows and columns of the maze.
  *  Further, for every current node chosen, we can travel upto a maximum depth of max(m,n) in any direction.

@@ -68,7 +68,7 @@ The maze contains at least 2 empty spaces, and both the width and height of the 
  *  Time complexity : O(mn). 
  *  Complete traversal of maze will be done in the worst case. Here, m and n refers to the number of rows and columns of the maze.
  *  Space complexity : O(mn). 
- *  visited array of size m*nm∗n is used.
+ *  visited array of size m*n is used.
  * 
  * You can get more detail explanations here:
  * https://leetcode.com/articles/the-maze/

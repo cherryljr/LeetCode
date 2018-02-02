@@ -67,8 +67,9 @@ class Solution {
             for (int start = 0; start + l <= len; start++) {
                 // end 为当前区间的最后一个数的 indices
                 int end = start + l - 1;
+                // 对 dp[start][end] 进行初始化，相当的关于 l=1 的情况
                 dp[start][end] = dp[start + 1][end] + 1;
-                // 遍历当前区间，利用 pivot指针 将其分段为 s[start, pivot] 和 s[pivot+1, end]
+                // 遍历当前区间，利用 分段点pivot 将当前区间分段为 s[start, pivot] 和 s[pivot+1, end]
                 // 根据这个计算出 区间最少打印次数dp[start][end] 的值
                 for (int pivot = start + 1; pivot < end; pivot++) {
                     if (s.charAt(start) == s.charAt(pivot)) {

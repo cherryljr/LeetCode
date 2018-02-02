@@ -16,7 +16,7 @@ Return 167
 */
 
 /**
- * Approach: Sequence DP
+ * Approach: Interval DP
  * 这道题目与 Strange Printer 有一定的类似，但是并不明显。
  * 下面我将会分析开题的解题思路并与 Strange Printer 进行对比，希望能帮助大家理解。
  * Strange Printer:

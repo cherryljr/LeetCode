@@ -18,13 +18,15 @@ s[0 ~ L-1] 的最少打印次数实际等于 s[1 ~ L-1] 的最少打印次数（
 这是因为打印出其中一个字符串的打印方案可以稍加变动变成另一个的打印方案而不改变打印次数。
 s[L ~ N-1] 的打印与前面字符的打印没有关系，可以看成一个新的目标字符串，用同样的方法分析计算。
 有两个特殊情况：
-    L = 1时，s[0]==s[L-1] 必然成立，这时的答案为1 + s[1 ~ N-1]的最小打印次数；
+    L = 1时，s[0]==s[L-1] 必然成立，这时的答案为 1 + s[1 ~ N-1] 的最小打印次数；
     L = N时，应满足 s[0]==s[L-1]==s[N-1]，即左右两端点相等，答案为 s[1 ~ N-1] 的最小打印次数。
-分别计算出s[1 ~ L-1]、s[L ~ N-1]的最小打印次数并相加得到特定L下的打印次数，枚举所有L，对得到的答案取最小值即可得到最终答案。
-这样把一个区间分成两个小的连续区间求解的方法属于区间型动态规划，状态 dp[i][j] 表示从i到j这段子串最少打印次数。
+分别计算出 s[1 ~ L-1]、s[L ~ N-1] 的最小打印次数并相加得到特定 L 下的打印次数，枚举所有 区间长度L，对得到的答案取最小值即可得到最终答案。
+这样把一个区间分成两个小的连续区间求解的方法属于区间型动态规划。
+状态 dp[i][j] 表示从 i 到 j 这段子串最少打印次数。
 
 算法复杂度分析：
-枚举所有区间的时间复杂度为O(n^2)，枚举分段点的时间复杂度为O(n)，故总的时间复杂度为O(n^3)，额外空间复杂度为O(n^2)。
+枚举所有区间的时间复杂度为O(n^2)，枚举分段点的时间复杂度为O(n)。
+故总的时间复杂度为O(n^3)，额外空间复杂度为O(n^2)。
 
 /*
 There is a strange printer with the following two special requirements:
@@ -53,30 +55,35 @@ class Solution {
             return 0;
         }
         
-        int n = s.length();
-        int[][] dp = new int[n][n];
-        // 初始化
-        for (int i = 0; i < n; i++) {
+        int len = s.length();
+        int[][] dp = new int[len][len];
+        // 对 dp[] 进行初始化
+        for (int i = 0; i < len; i++) {
             dp[i][i] = 1;
-        } 
+        }
         
-        // 遍历所有的区间长度l
-        for (int l = 2; l <= n; l++) {
-            for (int i = 0; i + l <= n; i++) {
-                int j = i + l - 1;  // j代表当前区间的最后一位的index
-                dp[i][j] = dp[i + 1][j] + 1;  
-                // 对区间l进行分段dp, s[i ~ k] 和 s[k+1 ~ j]
-                for (int k = i + 1; k < j; k++) {   
-                    if (s.charAt(i) == s.charAt(k)) {
-                        dp[i][j] = Math.min(dp[i][j], dp[i + 1][k] + dp[k + 1][j]);
+        // 遍历所有的区间长度 l
+        for (int l = 2; l <= len; l++) {
+            for (int start = 0; start + l <= len; start++) {
+                // end 为当前区间的最后一个数的 indices
+                int end = start + l - 1;
+                dp[start][end] = dp[start + 1][end] + 1;
+                // 遍历当前区间，利用 pivot指针 将其分段为 s[start, pivot] 和 s[pivot+1, end]
+                // 根据这个计算出 区间最少打印次数dp[start][end] 的值
+                for (int pivot = start + 1; pivot < end; pivot++) {
+                    if (s.charAt(start) == s.charAt(pivot)) {
+                        dp[start][end] = Math.min(dp[start][end], dp[start + 1][pivot] + dp[pivot + 1][end]);
                     }
                 }
-                if (s.charAt(i) == s.charAt(j)) {
-                    dp[i][j] = Math.min(dp[i][j], dp[i + 1][j]);
+                // 由于以上的 for 循环中 pivot 只遍历到了 end-1 的位置
+                // 所以这里需要比较一次 s[start] 和 s[end] 的值
+                // 若相等，则根据算法原理判断是否可以进一步缩小 dp[start][end] 的值
+                if (s.charAt(start) == s.charAt(end)) {
+                    dp[start][end] = Math.min(dp[start][end], dp[start + 1][end]);
                 }
             }
         }
         
-        return dp[0][n - 1];
+        return dp[0][len - 1];
     }
 }

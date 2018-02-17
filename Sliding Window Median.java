@@ -31,7 +31,7 @@ You may assume k is always valid, ie: k is always smaller than input array's siz
 /**
  * Approach 1: Two PriorityQueue (maxHeap + minHeap)
  * 这道题目与 Find Median from Data Stream 十分的类似
- *
+ * https://github.com/cherryljr/LeetCode/blob/master/Find%20Median%20from%20Data%20Stream.java
  * 只是这道题目加入了一个滑动窗口而已。相当于一个 Follow Up
  * 因此我们只需要在这基础之上，当窗口滑动时 加入一个 add操作 和 remove操作 即可。
  * 其他与 Find Median from Data Stream 相同。
@@ -119,7 +119,7 @@ class Solution {
  * 在 Approach 1 中我们使用了 PriorityQueue 这个数据结构来实现，
  * 其 remove() 操作耗费了 O(n) 的时间使得整体的时间复杂度提升到了 O(n^2) 的级别。
  * 于是我们可以想到之前解决过的一道问题：Building Outline
- *
+ * https://github.com/cherryljr/LintCode/blob/master/Building%20Outline.java
  * 在那里我们使用了 TreeMap 来替代 PriorityQueue 来实现 O(logn) 的 remove() 操作。
  * 同理，在这里我们也可以使用同样的方法。
  * 但是这里有点小小的区别，我们不在再使用 TreeMap,而是使用更为简洁一些的 TreeSet 即可。

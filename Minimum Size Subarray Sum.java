@@ -8,7 +8,14 @@ the subarray [4,3] has the minimal length under the problem constraint.
  */
 
 /**
- * Approach: Two Pointers
+ * Approach: Two Pointers (Sliding Window)
+ * This question is about Sliding Window, You can learn something about it here:
+ * Sliding Window Template:
+ * https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
+ * Of course, this question could be solved by more concise code, so we don't need to use the template.
+ * But the main idea is the same.
+ *
+ * Algorithm
  * Initialize left pointer to 0 and sum to 0
  * Iterate over the nums:
  *  Add nums[right] to sum

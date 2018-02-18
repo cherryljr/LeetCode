@@ -4,17 +4,37 @@
  *
  * The similar questions are:
  * Problem : https://leetcode.com/problems/find-all-anagrams-in-a-string/
- * Solution:
+ * Solution: https://github.com/cherryljr/LeetCode/blob/master/Find%20All%20Anagrams%20in%20a%20String.java
  * Problem : https://leetcode.com/problems/permutation-in-string/description/
- * Solution:
+ * Solution: https://github.com/cherryljr/LeetCode/blob/master/Permutation%20in%20String.java
  * Problem : https://leetcode.com/problems/longest-substring-without-repeating-characters/
- * Solution:
+ * Solution: https://github.com/cherryljr/LeetCode/blob/master/Longest%20Substring%20Without%20Repeating%20Characters.java
  * Problem : https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
- * Solution:
+ * Solution: https://github.com/cherryljr/LeetCode/blob/master/Longest%20Substring%20with%20At%20Most%20Two%20Distinct%20Characters.java
  * Problem : https://leetcode.com/problems/minimum-window-substring/
- * Solution:
+ * Solution: https://github.com/cherryljr/LeetCode/blob/master/Minimum%20Window%20Substring.java
  * Problem : https://leetcode.com/problems/substring-with-concatenation-of-all-words/
- * Solution:
+ * Solution: https://github.com/cherryljr/LeetCode/blob/master/Substring%20with%20Concatenation%20of%20All%20Words.java
+ */
+
+/*
+This Template is based on question: Find All Anagrams in a String
+Description
+Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
+Strings consists of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
+The order of output does not matter.
+
+Example:
+Input:
+s: "abab" p: "ab"
+
+Output:
+[0, 1, 2]
+
+Explanation:
+The substring with start index = 0 is "ab", which is an anagram of "ab".
+The substring with start index = 1 is "ba", which is an anagram of "ab".
+The substring with start index = 2 is "ab", which is an anagram of "ab".
  */
 
 public class Solution {

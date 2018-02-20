@@ -1,16 +1,3 @@
-We scan the array from 0 to n-1, keep "promising" elements in the deque. 
-The algorithm is amortized O(n) as each element is put and polled once.
-At each i, we keep "promising" elements, which are potentially max number in window [i-(k-1),i] or any subsequent window. 
-This means
-    1. If an element in the deque and it is out of (i - k + 1), we discard them. 
-    We just need to poll from the head, as we are using a deque and elements are ordered as the sequence in the array
-    2. Now only those elements within [i-(k-1),i] are in the deque. 
-    We then discard elements smaller than a[i] from the tail. 
-    This is because if a[last] <a[i] and last<i, then a[x] has no chance to be the "max" in [i-(k-1),i], 
-    or any other subsequent window: a[i] would always be a better candidate.
-    3. As a result elements in the deque are ordered in both sequence in array and their value. 
-    At each step the head of the deque is the max element in [i-(k-1),i]
-
 /*
 Given an array nums, there is a sliding window of size k which is moving from the very left of the array to the very right. 
 You can only see the k numbers in the window. Each time the sliding window moves right by one position.
@@ -34,12 +21,35 @@ Follow up:
 Could you solve it in linear time?
 */
 
+/**
+ * Approach: Deque
+ * 该题与 Sliding Window Median 具有一定的相似性。
+ * 都是求在一个滑动窗口中的一个参数值。
+ * 毫无疑问，大家最直接的想法就是借鉴 Sliding Window Median 的方法：
+ * 维护一个 maxHeap 即可，又因为需要进行 对某个特定的点 进行快速删除，
+ * 所以使用了 HashHeap， 即使用 maxHashHeap 这个数据结构即可。
+ * 时间复杂度为: O(nlogk)
+ *
+ * 但是根据题目要求，我们发现其要求的是 O(n) 的时间复杂度，即存在更好的做法。
+ * 于是我们考虑有哪些数据结构是 O(1) 时间复杂度的呢？
+ * 分别为: Stack; Queue; Deque.
+ * 经过分析发现：我们需要能够在区间的两端 都能进行 pop 和 push 操作。即只有 Deque 能够满足要求。
+ * 具体做法如下：
+ *  1. 用 Deque 来存储 滑动窗口内可能是 max 元素的下标。
+ *  当 Deque 中头节点的下标 小于 i-k+1 时，说明该元素已经不在 滑动窗口的范围内了，则将该元素从头部移除。
+ *  2. 加入一个新的元素时，与之前的节点比较，如果发现 之前的节点 < 当前节点的值，则将之前的节点从尾部移除。
+ *  这是因为 如果 nums[last] < nums[i] && last < i, 那么滑动窗口内的最大值不可能会是 nums[last].
+ *  3. 根据上述的分析，我们可以发现 Deque 是一个 递减队列。
+ *  因此每次滑动窗口的最大值就是以 队列头 作为下标的元素，即 nums[queue.getFirst()].
+ *  
+ * 时间复杂度分析：每个节点只会进队列一次，出队列一次。因此时间复杂度为：O(n)
+ */
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         if (nums == null || nums.length == 0) {
             return new int[0];
         }
-        
+
         int len = nums.length;
         int[] rst = new int[len - k + 1];
         int index = 0;
@@ -53,15 +63,15 @@ class Solution {
             // remove smaller numbers in k range as they are useless
             while (!qmax.isEmpty() && nums[qmax.getLast()] < nums[i]) {
                 qmax.removeLast();
-            }  
+            }
             // the deque - qmax contains index...
             // the array - rst contains content...
             qmax.addLast(i);
             if (i >= k - 1) {
-                rst[index++] = nums[qmax.getFirst()];   
+                rst[index++] = nums[qmax.getFirst()];
             }
         }
-        
+
         return rst;
     }
 }

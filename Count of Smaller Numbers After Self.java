@@ -84,3 +84,62 @@ class Solution {
         return sum;
     }
 }
+
+/**
+ * Approach 2: Binary Index Tree (with Discretization)
+ * We can save more extra space with the help of Discretization.
+ * But it will also cost more time.
+ * Using it or not depending on the source of data.
+ *
+ * You can get more detail explanations here:
+ * https://github.com/cherryljr/LintCode/blob/master/Count%20of%20Smaller%20Number%20before%20itself.java
+ */
+class Solution {
+    int[] BITree;
+
+    public List<Integer> countSmaller(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new ArrayList<Integer>();
+        }
+
+        int len = nums.length;
+        // Discretization
+        int[] sorted_arr = Arrays.copyOf(nums, len);
+        Arrays.sort(sorted_arr);
+        int[] discre = new int[len];
+        for (int i = 0; i < len; i++) {
+            discre[i] = Arrays.binarySearch(sorted_arr, nums[i]) + 1;
+        }
+
+        this.BITree = new int[len + 1];
+        Integer[] rst = new Integer[len];
+        for (int i = nums.length - 1; i >= 0; i--) {
+            // query the number of smaller element than nums[i]
+            // it means that we should sum all the number in range [1...discre[i]-1]
+            // so we can use BIT to do this
+            rst[i] = query(discre[i] - 1);
+            // update the BITree[discre[i]]
+            update(discre[i]);
+        }
+
+        return Arrays.asList(rst);
+    }
+
+    private void update(int index) {
+        // the index shouldn't be bigger than BITree.length (nums.length)
+        while (index < BITree.length) {
+            BITree[index]++;
+            index += index & -index;
+        }
+    }
+
+    private int query(int index) {
+        int sum = 0;
+        while (index > 0) {
+            sum += BITree[index];
+            index -= index & -index;
+        }
+        return sum;
+    }
+}
+

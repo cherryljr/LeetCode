@@ -37,9 +37,10 @@ Could you solve it in linear time?
  * 具体做法如下：
  *  1. 用 Deque 来存储 滑动窗口内可能是 max 元素的下标。
  *  当 Deque 中头节点的下标 小于 i-k+1 时，说明该元素已经不在 滑动窗口的范围内了，则将该元素从头部移除。
- *  2. 加入一个新的元素时，与之前的节点比较，如果发现 之前的节点 < 当前节点的值，则将之前的节点从尾部移除。
- *  这是因为 如果 nums[last] < nums[i] && last < i, 那么滑动窗口内的最大值不可能会是 nums[last].
- *  3. 根据上述的分析，我们可以发现 Deque 是一个 递减队列。
+ *  2. 加入一个新的元素时，与之前的节点比较，如果发现 之前的节点 <= 当前节点的值，则将之前的节点从尾部移除。
+ *  这是因为 如果 nums[last] <= nums[i] && last < i, 那么滑动窗口内的最大值不可能会是 nums[last].
+ *  而如果 nums[last] == nums[i], 那么因为 last < i, 所以新来的元素 nums[i] 必定更晚被弹出窗口(过期)
+ *  3. 根据上述的分析，我们可以发现 Deque 是一个 递减队列(没有等于，如果相等则取更晚进窗口的元素)。
  *  因此每次滑动窗口的最大值就是以 队列头 作为下标的元素，即 nums[queue.getFirst()].
  *  
  * 时间复杂度分析：每个节点只会进队列一次，出队列一次。因此时间复杂度为：O(n)
@@ -60,8 +61,8 @@ class Solution {
             if (!qmax.isEmpty() && qmax.getFirst() == i - k) {
                 qmax.removeFirst();
             }
-            // remove smaller numbers in k range as they are useless
-            while (!qmax.isEmpty() && nums[qmax.getLast()] < nums[i]) {
+            // remove numbers that no bigger than nums[i] in k range as they are useless
+            while (!qmax.isEmpty() && nums[qmax.getLast()] <= nums[i]) {
                 qmax.removeLast();
             }
             // the deque - qmax contains index...

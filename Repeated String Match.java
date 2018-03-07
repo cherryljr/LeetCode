@@ -54,7 +54,7 @@ class Solution {
  * 这道题目考察的是 KMP 算法的直接应用。
  * 与这道题类似的还有：Repeated Substring Pattern
  * 但是 Repeated Substring Pattern 的应用稍微更加灵活一些，大家可以看一看：
- * 
+ * https://github.com/cherryljr/LeetCode/blob/master/Repeated%20Substring%20Pattern.java
  * 
  * KMP Template:
  * https://github.com/cherryljr/LintCode/blob/master/KMP%20Template.java

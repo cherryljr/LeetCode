@@ -11,6 +11,9 @@ Return:
 
 Note: All inputs will be in lower-case.
  */
+ 
+// This Question is similar to Anagrams in LintCode
+// https://github.com/cherryljr/LintCode/blob/master/Anagrams.java
 
 /**
  * Approach 1: Categorize by Sorted String
@@ -37,12 +40,16 @@ Note: All inputs will be in lower-case.
  * We can transform each string s into a character count, currMap, consisting of 26 non-negative integers representing
  * the number of a's, b's, c's, etc.
  * We use these counts as the basis for our hash map.
- * the hashable representation of our count will be a string delimited with '#' characters.
- * For example, "abbccc" will be #1#2#3#0#0#0...#0 where there are 26 entries total.
+ * the string(key) represent the count of each characters.
+ * For example, "abbccc" will be 12300...00 where there are 26 entries total.
+ * As fro each anagrams, the key is unique.
  *
- * Why we use '#' to split the frequencies of each character?
- * Eg. Without '#', the currMap is "12".
- * Then it could represent 12 a's or 1 a and 2 b's. It make us confused.
+ * In the Solution of LeetCode Article, it use '#' to split the count of each character.
+ * It says that: Without '#', the currMap "12" could represent 12 a's or 1 a and 2 b's. It make us confused.
+ * Well, it's true in partial string.
+ * But as for the whole string, it will be different.
+ * The string with 12 a's will has 1 more 0 in the string at least, compared with
+ * the string with 1 a and 2 b's. So they could be recognized.
  *
  * Complexity Analysis
  *  Time Complexity: O(N*K),
@@ -76,11 +83,6 @@ class Solution {
         for (char c : str.toCharArray()) {
             map[c - 'a']++;
         }
-        StringBuilder sb = new StringBuilder();
-        for (int i : map) {
-            sb.append('#');
-            sb.append(i);
-        }
-        return sb.toString();
+        return Arrays.toString(map);
     }
 }

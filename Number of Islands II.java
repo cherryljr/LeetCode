@@ -91,6 +91,9 @@ Can you do it in time complexity O(k log mn), where k is the length of the posit
  * 然后与左边岛屿发生 Union => 4 - 1 = 3
  * 同样的还会与 上/右 边的岛屿发生 Union => 3 - 2 = 1.
  * 如果不采用此方法，岛屿发生 Union 之后，岛屿个数就会变得很难计算。
+ *
+ * Union Find Template:
+ * https://github.com/cherryljr/LintCode/blob/master/Find%20the%20Weak%20Connected%20Component%20in%20the%20Directed%20Graph.java
  */
 class Solution {
     public List<Integer> numIslands2(int m, int n, int[][] positions) {
@@ -137,17 +140,19 @@ class Solution {
     // Union Find Template
     class UnionFind {
         HashMap<Integer, Integer> parent;
+        HashMap<Integer, Integer> rankMap;
 
         UnionFind(int[] arr) {
             parent = new HashMap<>();
+            rankMap = new HashMap<>();
             for (int i : arr) {
                 parent.put(i, i);
+                rankMap.put(i, 1);
             }
         }
 
         public int compressedFind(int i) {
             while (i != parent.get(i)) {
-                // compress path
                 parent.put(i, parent.get(parent.get(i)));
                 i = parent.get(i);
             }
@@ -158,7 +163,15 @@ class Solution {
             int aFather = compressedFind(a);
             int bFather = compressedFind(b);
             if (aFather != bFather) {
-                parent.put(aFather, bFather);
+                int aFRank = rankMap.get(aFather);
+                int bFRank = rankMap.get(bFather);
+                if (aFRank <= bFRank) {
+                    parent.put(aFather, bFather);
+                    rankMap.put(bFather, aFRank + bFRank);
+                } else {
+                    parent.put(bFather, aFather);
+                    rankMap.put(aFather, aFRank + bFRank);
+                }
                 count--;
             }
             return count;
@@ -180,10 +193,13 @@ class Solution {
         }
 
         // use an array to hold root number(Big Brother) of each island
-        int[] unionFind = new int[m * n];
+        int[] parent = new int[m * n];
+        // use an array to hold the size of each region
+        int[] rank = new int[m * n];
         // initialize the unionFind with -1, so we know non negative number is a root number
         // and also mean that the island if true, so we can save the space of isIsland array
-        Arrays.fill(unionFind, -1);
+        Arrays.fill(parent, -1);
+        Arrays.fill(rank, 1);
 
         int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
         // count variable is used to count the island in current matrix.
@@ -191,7 +207,7 @@ class Solution {
         for(int[] position : positions){
             // for each input cell, its initial root number is itself
             int index = position[0] * n + position[1];
-            unionFind[index] = index;
+            parent[index] = index;
             count++;
 
             // check neighbor cells
@@ -201,21 +217,29 @@ class Solution {
                 // the indices of next point
                 int nextP = nextX * n + nextY;
                 // if the next point is beyond the bound or it's not an island, ignore it.
-                if(nextX < 0 || nextX >= m || nextY < 0 || nextY >= n || unionFind[nextP] == -1){
+                if(nextX < 0 || nextX >= m || nextY < 0 || nextY >= n || parent[nextP] == -1){
                     continue;
                 }
 
                 // get the root number(Big Brother) of current island
-                int roota = compressedFind(unionFind, index);
+                int roota = compressedFind(parent, index);
                 //get the root number(Big Brother) of the next island
-                int rootb = compressedFind(unionFind, nextP);
+                int rootb = compressedFind(parent, nextP);
                 //if roota and rootb are different, then we can union two isolated island together,
                 // so the num of island - 1
                 if (roota != rootb) {
-                    unionFind[roota] = rootb;
+                    // keep balance
+                    if (rank[roota] <= rank[rootb]) {
+                        parent[roota] = rootb;
+                        rank[rootb] += rank[roota];
+                    } else {
+                        parent[rootb] = roota;
+                        rank[roota] += rank[rootb];
+                    }
                     count--;
                 }
             }
+            
             rst.add(count);
         }
 

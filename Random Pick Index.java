@@ -22,7 +22,7 @@ solution.pick(1);
  * 蓄水池抽样算法.
  * 与 Linked List Random Node 是同一类型的题目。
  * 关于该算法的讲解与证明可以参考：
- *
+ * https://github.com/cherryljr/LeetCode/blob/master/Linked%20List%20Random%20Node.java
  */
 class Solution {
     int[] nums;

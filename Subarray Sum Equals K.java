@@ -14,6 +14,7 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
 /**
  * Approach: PreSum + HashMap
  * 这道题目与 累加和为K的最长子数组 十分类似。
+ * https://github.com/cherryljr/NowCoder/blob/master/%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BAK%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84.java
  * 我们依旧引入 preSum 来优化我们的时间复杂度，并将其储存在 map 中。
  * 根据题目要求，在这里 key 为 preSum, value 为 preSum 出现的次数（因为我们要求的是次数，而不再是长度）。
  * 当 map.containsKey(preSum-k) 时，说明在 i 之前已经累加出现过 map.get(preSum-k) 次 k 的值。

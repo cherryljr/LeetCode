@@ -27,7 +27,7 @@ Note: Do not use the eval built-in library function.
  * 具体实现参见代码以及相关注释。
  *
  * Fellow Up:
- * 
+ * https://github.com/cherryljr/NowCoder/blob/master/%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97%E5%99%A8.java
  */
 class Solution {
     public int calculate(String s) {

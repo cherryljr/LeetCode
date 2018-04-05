@@ -20,8 +20,8 @@ You may assume the sum of all the numbers is in the range of a signed 32-bit int
 
 /**
  * Approach 1: PreSum + HashMap
- * 本题与 累加和为K的最长子数组 用到了相同的解法。
- * https://github.com/cherryljr/NowCoder/blob/master/%E7%B4%AF%E5%8A%A0%E5%92%8C%E4%B8%BAK%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E6%95%B0%E7%BB%84.java
+ * 本题与 Maximum Size Subarray Sum Equals k 用到了相同的解法。
+ * https://github.com/cherryljr/LintCode/blob/master/Maximum%20Size%20Subarray%20Sum%20Equals%20k.java
  * 区别在于：
  * 我们原来需要考虑的仅仅只是 k，而本题需要考虑的是 0,k,2k,3k...preSum.
  * 但是本题难点不在在这里，难点在于各种 特殊 情况的考虑。

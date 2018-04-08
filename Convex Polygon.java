@@ -74,7 +74,7 @@ public class Solution {
         // If we got this far, the polygon is convex.
         return true;
     }
-    
+
     /*
     Return the cross product AB x BC.
     The cross product is a vector perpendicular to AB and BC having length |AB| * |BC| * Sin(theta) and
@@ -84,12 +84,12 @@ public class Solution {
     private int crossProductLength(int Ax, int Ay, int Bx, int By, int Cx, int Cy)
     {
         // Get the vectors' coordinates.
-        int BAx = Ax - Bx;
-        int BAy = Ay - By;
-        int BCx = Cx - Bx;
-        int BCy = Cy - By;
+        int ABx = Bx - Ax;
+        int ABy = By - Ay;
+        int ACx = Cx - Ax;
+        int ACy = Cy - Ay;
 
         // Calculate the Z coordinate of the cross product.
-        return (BAx * BCy - BAy * BCx);
+        return ABx * ACy - ABy * ACx;
     }
 }

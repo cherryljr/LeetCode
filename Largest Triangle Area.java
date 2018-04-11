@@ -30,8 +30,9 @@ Answers within 10^-6 of the true value will be accepted as correct.
  * 对于三角形面积计算这一点，知乎上有个专栏，大家有兴趣可以去看一看：
  * https://zhuanlan.zhihu.com/p/25599977
  *
- * 向量外积的另一个应用：
+ * 向量外积的其他应用：
  * https://github.com/cherryljr/LeetCode/blob/master/Convex%20Polygon.java
+ * https://github.com/cherryljr/NowCoder/blob/master/%E7%BA%BF%E6%AE%B5%E7%9B%B8%E4%BA%A4%E7%82%B9%E4%B8%AA%E6%95%B0.java
  */
 class Solution {
     public double largestTriangleArea(int[][] points) {

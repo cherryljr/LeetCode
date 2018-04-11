@@ -37,6 +37,7 @@ Explanation: https://leetcode.com/static/images/problemset/polygon_not_convex.pn
  *
  * The Other Applications of Cross Product:
  * Largest Triangle Area: https://github.com/cherryljr/LeetCode/blob/master/Largest%20Triangle%20Area.java
+ * https://github.com/cherryljr/NowCoder/blob/master/%E7%BA%BF%E6%AE%B5%E7%9B%B8%E4%BA%A4%E7%82%B9%E4%B8%AA%E6%95%B0.java
  */
 public class Solution {
     public boolean isConvex(List<List<Integer>> points) {

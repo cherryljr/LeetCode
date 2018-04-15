@@ -225,17 +225,19 @@ public class Solution {
  * Approach 2: DP
  * Algorithm:
  * We make use of a dp array where ith element of dp represents the length of the longest valid substring ending at ith index.
- * We initialize the complete dp array with 0's. Now, it's obvious that the valid substrings must end with ‘)’.
- * This further leads to the conclusion that: the substrings ending with ‘(’ will always contain '0' at their corresponding dp indices.
- * Thus, we update the dp array only when ‘)’ is encountered.
+ * We initialize the complete dp array with 0's. Now, it's obvious that the valid substrings must end with ')'.
+ * This further leads to the conclusion that: the substrings ending with '(' will always contain '0' at their corresponding dp indices.
+ * Thus, we update the dp array only when ')' is encountered.
  * Function:
- *  1. s[i]=‘)’ and s[i−1]=‘(’, i.e. string looks like "......()"
- *      =>  dp[i]=dp[i-2] + 2
- *  We do so because the ending "()" portion is a valid substring anyhow and
- *  leads to an increment of 2 in the length of the just previous valid substring's length.
- *  2. s[i]=‘)’ and s[i−1]=‘)’, i.e. string looks like "......))"
- *      =>  if s[i - dp[i - 1] - 1] = ‘(’ then
- *      dp[i] = dp[i−1] + dp[i − dp[i−1] − 2] + 2
+ *  Using pre represent the position of i-dp[i-1]-1.
+ *  if s[i]=')' and s[pre]='(', i.e. string looks like "(......)"
+ *  =>  dp[i] = dp[i-1] + 2
+ *  But it's not enough...(And this is also the key point of this question)
+ *  We should also plus the value of dp[pre-1] (if the pre-1 is in range)
+ *  Eg. the string is "()()()()", if we don't plus the dp[pre-1]
+ *  we will get dp[]={0,2,0,2,0,2,0,2}. 
+ *  Apparently, it's wrong...
+ *  But if we plus dp[pre-1], we can get dp[]={0,2,0,4,0,6,0,8}, it's the right answer.
  *
  * Complexity Analysis:
  * Time complexity  : O(n). Single traversal of string to fill dp array is done.
@@ -250,10 +252,11 @@ public class Solution {
 
         for (int i = 1; i < s.length(); i++) {
             if (s.charAt(i) == ')') {
-                if (s.charAt(i - 1) == '(') {
-                    dp[i] = (i >= 2 ? dp[i - 2] : 0) + 2;
-                } else if (i - dp[i - 1] > 0 && s.charAt(i - dp[i - 1] - 1) == '(') {
-                    dp[i] = dp[i - 1] + ((i - dp[i - 1]) >= 2 ? dp[i - dp[i - 1] - 2] : 0) + 2;
+                int pre = i - dp[i - 1] - 1;
+                // check the pre is in range and s[pre] equals '('
+                if (pre >= 0 && s.charAt(pre) == '(') {
+                    // remember to plus dp[pre - 1] 
+                    dp[i] = dp[i - 1] + 2 + (pre > 0 ? dp[pre - 1] : 0);
                 }
                 maxlen = Math.max(maxlen, dp[i]);
             }

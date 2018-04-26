@@ -46,7 +46,7 @@ S[0] = "(", S[S.length - 1] = ")", and the other elements in S are digits.
  * 然后将 左部分的所有有效数字 乘以 有部分的所有有效数字 就能够得出最终结果了。（分别进行匹配）
  * 这就是 笛卡尔积，这个知识点在许多题目中都有所应用，比如：
  * Get All Possible Binary Trees: https://github.com/cherryljr/NowCoder/blob/master/Get%20All%20Possible%20Binary%20Trees.java
- * Binary Trees With Factors:
+ * Binary Trees With Factors: https://github.com/cherryljr/LeetCode/blob/master/Binary%20Trees%20With%20Factors.java
  *
  * 至于有效数字，其实就是题目中要求的：不能有多余的 0.
  * 对此我们只需要进行分类讨论即可：

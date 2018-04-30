@@ -13,7 +13,7 @@ Note:
  */
 
 /**
- * Approach: Backtracking (DFS)
+ * Approach 1: Backtracking (DFS)
  * 这道题目算是 Partition Equal Subset Sum 的一个 Fellow Up 吧。
  * 从原本分成 2 个和相等的子数组，变成了分成 k 个和相等的子数组。
  * 刚刚开始依旧打算从 DP 方向入手，发现有点麻烦，怒放弃之...
@@ -27,8 +27,6 @@ Note:
  * 在此过程中，我们需要使用 visited[] 来标记各个元素是否已经被使用过
  * （防止递归调用时重复使用某个元素）
  * 并且因为求 SubSet 时是存在 空集 这个情况的，所以我们需要加入 currCount 参数来跟踪，以防止空集的情况。
- *
- * 说实话，这么暴力的方法能 AC 我也是有点意外的...
  */
 class Solution {
     public boolean canPartitionKSubsets(int[] nums, int k) {
@@ -77,5 +75,46 @@ class Solution {
             }
         }
         return false;
+    }
+}
+
+/**
+ * Approach 2: DP
+ * 这个解法的详细分析可以参考：
+ * https://leetcode.com/articles/partition-to-k-equal-sum-subsets/
+ */
+class Solution {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int N = nums.length;
+        Arrays.sort(nums);
+        int sum = Arrays.stream(nums).sum();
+        int target = sum / k;
+        if (sum % k > 0 || nums[N - 1] > target) {
+            return false;
+        }
+
+        boolean[] dp = new boolean[1 << N];
+        dp[0] = true;
+        int[] total = new int[1 << N];
+
+        for (int state = 0; state < (1 << N); state++) {
+            if (!dp[state]) {
+                continue;
+            }
+
+            for (int i = 0; i < N; i++) {
+                int future = state | (1 << i);
+                if (state != future && !dp[future]) {
+                    if (nums[i] <= target - (total[state] % target)) {
+                        dp[future] = true;
+                        total[future] = total[state] + nums[i];
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return dp[(1 << N) - 1];
     }
 }

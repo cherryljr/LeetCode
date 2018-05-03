@@ -54,10 +54,9 @@ class Solution {
         }
 
         for (int i = 1; i < nums.length; i++) {
-            for (int j = target; j >= 0; j--) {
-                if (j >= nums[i]) {
-                    dp[j] |= dp[j - nums[i]];
-                }
+        	// Gurantee the size is big enough to put num[i] into the backpack.
+            for (int j = target; j >= nums[i]; j--) {
+                dp[j] |= dp[j - nums[i]];
             }
         }
         return dp[target];

@@ -65,13 +65,14 @@ public class Solution {
         // Loop at the beginning of the source string
         while (end < s.length()) {
             // Get a character
-            char c = s.charAt(end);
+            char cEnd = s.charAt(end);
 
-            if (map.containsKey(c)) {
+            if (map.containsKey(cEnd)) {
                 // Plus or minus one
-                map.put(c, map.get(c) - 1);
+                map.put(cEnd, map.get(cEnd) - 1);
                 // Modify the counter according the requirement (different condition).
-                if (map.get(c) == 0) {
+                // Plus or minus is all possible
+                if (map.get(cEnd) == 0) {
                     counter--;
                 }
             }
@@ -80,11 +81,11 @@ public class Solution {
             // Increase begin pointer to make it invalid/valid again
             while (counter == 0 /* counter condition. different question may have different condition */) {
                 // Be careful here: choose the char at begin pointer, NOT the end pointer
-                char tempc = s.charAt(begin);
-                if (map.containsKey(tempc)) {
+                char cBegin = s.charAt(begin);
+                if (map.containsKey(cBegin)) {
                     // Plus or minus one
-                    map.put(tempc, map.get(tempc) + 1);
-                    if (map.get(tempc) > 0) {
+                    map.put(cBegin, map.get(cBegin) + 1);
+                    if (map.get(cBegin) > 0) {
                         // Modify the counter according the requirement (different condition).
                         counter++;
                     }
@@ -93,10 +94,11 @@ public class Solution {
                 // save / update(min/max) the result if find a target
                 // result collections or result int value
 
+                // move the left bound forward
+                // make the substring(sliding window) invalid / valid again, so we can move on
                 begin++;
             }
         }
         return result;
     }
 }
-

@@ -39,8 +39,9 @@ class Solution {
             while (counter > 0) {
                 char tempc = s.charAt(begin);
                 map.put(tempc, map.get(tempc) - 1);
-                // map.get(temp) > 0 means the tempc is the duplicated character.
-                if (map.get(tempc) > 0) {
+                // After subtracting 1, 
+                // if map.get(temp) == 1 means the tempc is the duplicated character.
+                if (map.get(tempc) == 1) {
                     counter--;
                 }
                 begin++;

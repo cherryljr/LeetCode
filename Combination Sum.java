@@ -34,6 +34,10 @@ A solution set is:
  * 为的是能够在 dfs 过程中，当 candidates[i] > remainTarget 可以直接结束递归。
  *（后面的数肯定都比 remainTraget 要大，所以不可能组成 target)
  * 这样可以对程序起到一定的加速作用。
+ * 
+ * 利用事先 排序 然后进行时间优化（剪枝）的还有：
+ *  网易_幸运的袋子：
+ *  https://github.com/cherryljr/NowCoder/blob/master/%E7%BD%91%E6%98%93_%E5%B9%B8%E8%BF%90%E7%9A%84%E8%A2%8B%E5%AD%90.java
  */
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {

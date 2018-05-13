@@ -28,7 +28,7 @@ Note: 0 <= S.length <= 10000.
  * 而非去计算每个 Unique Substring 的长度...（非常巧妙的一个做法）
  *
  * 下面举个例子来帮助大家理解这个做法。假设我们有一个字符串 S，
- * 它只包含了 3 个'A': "XAXAXXAX"，那么我们现在考考虑包含 'A' 的 Unique Substring 有几个呢？
+ * 它只包含了 3 个'A': "XAXAXXAX"，那么我们现在来考虑包含 'A' 的 Unique Substring 有几个呢？
  * 首先我们可以利用 Map 来记录 'A' 的出现位置，在本例中为：S[1] = S[3] = S[6] = 'A'
  * 那么对于中间（第二个）'A'，它的左边界有 (2, 3) 总共 2 种可能性，("XA(XAX..." 和 "XAX(AX...")
  * 右边界有 (3,4,5) 总共 3 种可能性.("...XA)XXAX"; "...XAX)XAX" 和 "...XAXX)AX")
@@ -58,7 +58,7 @@ class Solution {
         int sum = 0;
         for (List<Integer> list : index.values()) {
             for (int i = 0; i < list.size(); i++) {
-                // 需要经常对 list 的 i 位置经常范围，因此需要使用 ArrayList（LinkedList会超时哦）
+                // 需要经常对 list 的 i 位置附近的元素进行访问，因此需要使用 ArrayList（LinkedList会超时哦）
                 int left = i == 0 ? -1 : list.get(i - 1);   // 左边界
                 int right = i == list.size() - 1 ? S.length() : list.get(i + 1);    // 右边界
                 sum = (sum + (list.get(i) - left) * (right - list.get(i))) % MOD;

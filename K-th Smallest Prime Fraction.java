@@ -54,7 +54,10 @@ K will be between 1 and A.length * (A.length - 1) / 2.
  *  因此总体时间复杂度为：O(nlogn)
  *
  * 类似的问题：
- *
+ * Find K-th Smallest Pair Distance:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Find%20K-th%20Smallest%20Pair%20Distance.java
+ * Kth Smallest Element in a Sorted Matrix:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Kth%20Smallest%20Element%20in%20a%20Sorted%20Matrix.java
  */
 class Solution {
     // Keep Track of the kth smallest element's index

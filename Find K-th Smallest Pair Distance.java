@@ -33,7 +33,10 @@ Note:
  * 然后我们就可以开始二分求 kth smallest distance 了。
  *
  * 因为这两道题目太像了，这里就不再赘述了，详细分析可以参考：
- *
+ * K-th Smallest Prime Fraction
+ *  https://github.com/cherryljr/LeetCode/edit/master/K-th%20Smallest%20Prime%20Fraction.java
+ * Kth Smallest Element in a Sorted Matrix:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Kth%20Smallest%20Element%20in%20a%20Sorted%20Matrix.java
  */
 class Solution {
     public int smallestDistancePair(int[] nums, int k) {

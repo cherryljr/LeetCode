@@ -105,8 +105,13 @@ class Solution {
  * 题外话：只要具有排他性，便能够使用二分法 -- 二分法求局部最小值.java in NowCoder
  * https://github.com/cherryljr/NowCoder/blob/master/%E4%BA%8C%E5%88%86%E6%B3%95%E6%B1%82%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E5%80%BC.java
  *
- * 利用到本题知识点的相关问题已经 Fwllow Up:
- *
+ * 利用到本题知识点的相关问题以及 Fwllow Up:
+ * Kth Smallest Number in Multiplication Table:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Kth%20Smallest%20Number%20in%20Multiplication%20Table.java
+ * K-th Smallest Prime Fraction:
+ *  https://github.com/cherryljr/LeetCode/edit/master/K-th%20Smallest%20Prime%20Fraction.java
+ * Find K-th Smallest Pair Distance:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Find%20K-th%20Smallest%20Pair%20Distance.java
  */
 class Solution {
     public int kthSmallest(int[][] matrix, int k) {

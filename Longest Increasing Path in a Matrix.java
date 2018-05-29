@@ -40,10 +40,16 @@ The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
  * 因此如果该条路径成立，则 dp[row][col] = Math.max(dp[row][col], dp[nextRow][nextCol] + 1)
  * 因为我们使用了 dp[][] 来记录各个节点的 longest Increasing Path,
  * 所以当再次需要这个值，且该值已经被计算过时，可以直接返回。
+ * 这里的 Recursion 看似没有结束条件，但是问题的规模是在一步步缩小的，因此并不会陷入死循环中。
+ * （只有当遇到 matrix[nextRow][nextCol] > matrix[row][col] 时才会发生递归调用操作。）
  *
  * 时间复杂度：O(MN)
  * 对于每个结点，其值依赖于周围四个节点，计算时间复杂度为O(1)
  * 总共有 M*N 个节点，因此总体时间复杂度为 O(MN)
+ *
+ * 类似的问题：
+ * Knight Probability in Chessboard：
+ *  https://github.com/cherryljr/LeetCode/blob/master/Knight%20Probability%20in%20Chessboard.java
  */
 class Solution {
     private static final int[][] DIRS = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
@@ -70,11 +76,6 @@ class Solution {
     }
 
     private int dfs(int[][] dp, int[][] matrix, int row, int col) {
-        // 如果当前值不为空（已经计算过了）则直接返回
-        if (dp[row][col] != 0) {
-            return dp[row][col];
-        }
-
         dp[row][col] = 1;   // 初始化当前值
         for (int[] dir : DIRS) {
             int nextRow = row + dir[0];
@@ -83,7 +84,12 @@ class Solution {
                     || matrix[nextRow][nextCol] <= matrix[row][col]) {
                 continue;
             }
-            dp[row][col] = Math.max(dp[row][col], dfs(dp, matrix, nextRow, nextCol) + 1);
+            // 如果需要的值还没被计算过，则递归调用 DFS 进行计算
+            if (dp[nextRow][nextCol] == 0) {
+                dp[nextRow][nextCol] = dfs(dp, matrix, nextRow, nextCol);
+            }
+            // 计算当前状态信息
+            dp[row][col] = Math.max(dp[row][col], dp[nextRow][nextCol] + 1);
         }
 
         return dp[row][col];

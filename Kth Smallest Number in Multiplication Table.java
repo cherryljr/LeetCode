@@ -1,6 +1,6 @@
-The same as Kth Smallest Number in Sorted Matrix in LintCode.
+The same as Kth Smallest Number in Sorted Matrix.
 You can get more details here:
-https://github.com/cherryljr/LintCode/blob/master/Kth%20Smallest%20Number%20in%20Sorted%20Matrix.java
+https://github.com/cherryljr/LeetCode/blob/master/Kth%20Smallest%20Element%20in%20a%20Sorted%20Matrix.java
 
 /*
 Nearly every one have used the Multiplication Table. 

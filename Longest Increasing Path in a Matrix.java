@@ -23,19 +23,30 @@ The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
  */
  
 /**
- * Approach: DFS
- * This Method is similar to The Maze II (DFS Method) and Portal (Although it's BFS, but main idea is the same).
- * https://github.com/cherryljr/LeetCode/blob/master/The%20Maze%20II.java
- * https://github.com/cherryljr/LintCode/blob/master/Portal.java
+ * Approach: DFS + Memory Search
+ * 本题最暴力的做法是直接从每个点开始进行 DFS，然后取最长的路径即可。
+ * 虽然没有给出数据规模，但是怎么做肯定是会超时的。
+ * 这是因为对每个点进行DFS的过程中存在着大量重复计算。
+ * 这边举一个极端的例子：
+ *      [1, 2, 3, 4]
+ *      [2, 3, 4, 5]
+ *      [3, 4, 5, 6]
+ * 上述矩阵就存在着大量的重复计算，时间复杂度为：O(2^n)
  *
- * We can do DFS from each cell and keep as value maxLen as the longest increasing path.
- * The Process:
- *  1. Do DFS from every cell
- *  2. Compare every 4 direction and skip cells that are out of boundary or smaller
- *  3. Get matrix max from every cell’s max
+ * 对此我们可以利用 Memory Search 进行时间复杂度的优化，避免重复计算。
+ * 而这实际上就是一个 DP 的过程。
+ * 当前状态依赖于其周围 4个 邻居节点的状态。
+ * 当 matrix[nextRow][nextCol] > matrix[row][col] 时，则说明这是一条递增路径。
+ * 因此如果该条路径成立，则 dp[row][col] = Math.max(dp[row][col], dp[nextRow][nextCol] + 1)
+ * 因为我们使用了 dp[][] 来记录各个节点的 longest Increasing Path,
+ * 所以当再次需要这个值，且该值已经被计算过时，可以直接返回。
+ *
+ * 时间复杂度：O(MN)
+ * 对于每个结点，其值依赖于周围四个节点，计算时间复杂度为O(1)
+ * 总共有 M*N 个节点，因此总体时间复杂度为 O(MN)
  */
 class Solution {
-    int maxLen = 1; // the longest increasing path
+    private static final int[][] DIRS = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
     public int longestIncreasingPath(int[][] matrix) {
         if (matrix == null || matrix.length == 0
@@ -43,92 +54,38 @@ class Solution {
             return 0;
         }
 
-        // Initialize the distance array.
-        int[][] distance = new int[matrix.length][matrix[0].length];
-        for (int[] arr : distance) {
-            Arrays.fill(arr, 1);
-        }
+        int rows = matrix.length, cols = matrix[0].length;
+        int[][] dp = new int[rows][cols];
 
+        int maxPath = 1;
         // DFS from each cell
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                dfs(matrix, i, j, distance);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                // Update the maxLen
+                maxPath = Math.max(maxPath, dfs(dp, matrix, i, j));
             }
         }
 
-        return maxLen;
+        return maxPath;
     }
 
-    private void dfs(int[][] matrix, int i, int j, int[][] distance) {
-        int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    private int dfs(int[][] dp, int[][] matrix, int row, int col) {
+        // 如果当前值不为空（已经计算过了）则直接返回
+        if (dp[row][col] != 0) {
+            return dp[row][col];
+        }
 
-        for (int[] dir : dirs) {
-            int x = i + dir[0];
-            int y = j + dir[1];
-            if (x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length
-                    || matrix[x][y] <= matrix[i][j]) {
+        dp[row][col] = 1;   // 初始化当前值
+        for (int[] dir : DIRS) {
+            int nextRow = row + dir[0];
+            int nextCol = col + dir[1];
+            if (nextRow < 0 || nextRow >= matrix.length || nextCol < 0 || nextCol >= matrix[0].length
+                    || matrix[nextRow][nextCol] <= matrix[row][col]) {
                 continue;
             }
-            // if we find a longer path, update distance[x][y]
-            // then do DFS from here
-            if (distance[i][j] + 1 > distance[x][y]) {
-                distance[x][y] = distance[i][j] + 1;
-                // update the maxLen
-                maxLen = Math.max(maxLen, distance[x][y]);
-                dfs(matrix, x, y, distance);
-            }
-        }
-    }
-}
-
-/**
- * Approach 2: DFS + Memory Search
- * THe main process is the same as Approach 1.
- * But we can use Memory Search to optimize the Time Complexity.
- * 
- * Note:
- *  1. Use dp[i][j] so we don’t need a visited[m][n] array
- *  (if it's not equals to 0, it means that the point has been visited)
- *  2. The key is to cache the distance because it’s highly possible to revisit a cell
- *
- * Owing to Memory Search, the Time Complexity is O(mn), and the Space Complexity is O(mn).
- */
-class Solution {
-    public int longestIncreasingPath(int[][] matrix) {
-        if (matrix == null || matrix.length == 0
-                || matrix[0] == null || matrix[0].length == 0) {
-            return 0;
+            dp[row][col] = Math.max(dp[row][col], dfs(dp, matrix, nextRow, nextCol) + 1);
         }
 
-        int rst = 1;
-        int[][] dp = new int[matrix.length][matrix[0].length];
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                rst = Math.max(rst, dfs(matrix, i, j, dp));
-            }
-        }
-
-        return rst;
-    }
-
-    private int dfs(int[][] matrix, int i, int j, int[][] dp) {
-        if (dp[i][j] != 0) {
-            return dp[i][j];
-        }
-        int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        int len = 1;
-
-        for (int[] dir : dirs) {
-            int x = i + dir[0];
-            int y = j + dir[1];
-            if (x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length
-                    || matrix[x][y] <= matrix[i][j]) {
-                continue;
-            }
-            len = Math.max(len, dfs(matrix, x, y, dp) + 1);
-        }
-        dp[i][j] = len;
-
-        return len;
+        return dp[row][col];
     }
 }

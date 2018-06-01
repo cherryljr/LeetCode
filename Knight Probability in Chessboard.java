@@ -109,17 +109,20 @@ class Solution {
  * Approach 3: DFS with Memoization
  * 因为 Approach 2 的暴力方法挂了...分析发现各个位置存在大量重复计算。
  * 因此使用一个数组将其计算结果存储起来即可，当有需要时就可以直接调用，即 记忆化搜索。
- * 改起来还是十分简单的，代码几乎没变...
+ * 我们需要记录的状态信息有：行坐标，列坐标，以及步数信息。
+ * 因此我们开辟了一个 三维数组 dp[][][].来存储相应的信息。
+ * 当前状态依赖于下一步的 8 个状态（走法）。K 指的是 剩余步数
+ * 即：dp[row][col][K] += dp[nextRow][nextCol][K - 1];    // 步数-1
  *
  * 时间复杂度：O(N^2*K)
  * 空间复杂度：O(N^2*K)
  */
 class Solution {
-    double[][][] mem;
+    double[][][] dp;
     public static final int[][] DIRS = new int[][]{{-1, -2}, {-2,  -1}, {-2, 1}, {-1, 2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}};
 
     public double knightProbability(int N, int K, int r, int c) {
-        mem = new double[N][N][K + 1];
+        dp = new double[N][N][K + 1];
         return dfs(N, K, r, c) / Math.pow(8, K);
     }
 
@@ -129,7 +132,7 @@ class Solution {
             return 1;
         }
 
-        double inBoard = 0;
+        dp[row][col][K] = 0;    // 初始化当前值
         // 递归求解的调用过程
         for (int[] dir : DIRS) {
             int nextRow = row + dir[0];
@@ -137,16 +140,15 @@ class Solution {
             if (nextRow < 0 || nextRow >= N || nextCol < 0 || nextCol >= N) {
                 continue;
             }
-            // 若需要位置的值还未被计算过，则递归调用dfs进行计算
-            if (mem[nextRow][nextCol][K - 1] == 0) {
-                mem[nextRow][nextCol][K - 1] = dfs(N, K - 1, nextRow, nextCol);
+            // 若需要位置的信息还未被计算过，则递归调用 dfs 进行计算
+            if (dp[nextRow][nextCol][K - 1] == 0) {
+                dp[nextRow][nextCol][K - 1] = dfs(N, K - 1, nextRow, nextCol);
             }
-            // 使用事先记录好值计算当前值即可
-            inBoard += mem[nextRow][nextCol][K - 1];
+            // 计算当前状态信息（依赖于下一步的 8 个状态）
+            dp[row][col][K] += dp[nextRow][nextCol][K - 1];
         }
-        // In fact, this line could be ignored (Think about why?)
-        // mem[row][col][K] = inBoard; 
-        return inBoard;
+
+        return dp[row][col][K];
     }
 }
 

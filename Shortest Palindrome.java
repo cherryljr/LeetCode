@@ -38,7 +38,7 @@ Given "abcd", return "dcbabcd".
  *  因此解法与本题基本相同，只需要在构建字符串 str 时，将其改成： str = reverse(s) + '#' + s.
  *  最终结果为：s + reverse(s).substring(endNext)
  *  题目请参照：添加回文串
- *  
+ *   https://github.com/cherryljr/NowCoder/blob/master/%E6%B7%BB%E5%8A%A0%E5%9B%9E%E6%96%87%E4%B8%B2.java
  */
 class Solution {
     public String shortestPalindrome(String s) {

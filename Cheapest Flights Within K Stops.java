@@ -180,7 +180,7 @@ class Solution {
  * 视频讲解：
  *  http://zxi.mytechroad.com/blog/dynamic-programming/leetcode-787-cheapest-flights-within-k-stops/
  * Network Delay Time：
- *
+ *  https://github.com/cherryljr/LeetCode/blob/master/Network%20Delay%20Time.java
  */
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {

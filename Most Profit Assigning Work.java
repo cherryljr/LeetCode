@@ -128,3 +128,34 @@ class Solution {
         }
     }
 }
+
+/**
+ * Approach 3: Bucket Sort + DP
+ * 因为题目明确给出 难度 的范围，因此我们可以想到使用 Bucket sort 来做。
+ * 这样可以使时间复杂度达到 O(n) 的级别。
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n) / O(1)
+ * 
+ * 该解法参考：
+ * https://www.youtube.com/watch?v=hh1hF2hS3C4
+ */
+class Solution {
+    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+        int[] maxProfit = new int[100001];
+        // 统计每个难度下所能获得的最高收益
+        for (int i = 0; i < difficulty.length; i++) {
+            maxProfit[difficulty[i]] = Math.max(maxProfit[difficulty[i]], profit[i]);
+        }
+        // 统计 小于等于 难度i 的情况下，所能获得的最大收益 (DP)
+        for (int i = 2; i < maxProfit.length; i++) {
+            maxProfit[i] = Math.max(maxProfit[i], maxProfit[i - 1]);
+        }
+
+        // 遍历 worker 的能力值，从 maxProfit 中查询到其对应所能获得的最大收益，然后加上即可
+        int rst = 0;
+        for (int ability : worker) {
+            rst += maxProfit[ability];
+        }
+        return rst;
+    }
+}

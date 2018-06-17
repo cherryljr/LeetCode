@@ -23,33 +23,40 @@ N is in range [0,50].
  */
 
 /**
- * Approach 1: DFS (Time Limit Exceeded)
+ * Approach 1: DFS + Memory Search
  * 这道题目与 Knight Probability in Chessboard 基本一样。
  * 一个求在 棋盘上，一个求在 棋盘外 罢了。
  * 只需要对 递归 的终止条件进行修改即可（当然移动方式也有点不同就是了...）
- * 同样这个方法是会超时的，但是理解这个方法有助于对 DP 解法的理解。
- *
+ * 
  * Knight Probability in Chessboard:
- * https://github.com/cherryljr/LeetCode/blob/master/Knight%20Probability%20in%20Chessboard.java
+ *  https://github.com/cherryljr/LeetCode/blob/master/Knight%20Probability%20in%20Chessboard.java
  */
 class Solution {
     public static final int[][] DIRS = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    public static final int MOD = 1000000007;
+    long[][][] dp;
 
     public int findPaths(int m, int n, int N, int i, int j) {
-        return dfs(m, n, N, i, j);
+        dp = new long[m][n][N + 1];
+        return (int)dfs(m, n, N, i, j);
     }
 
-    private int dfs(int m, int n, int step, int row, int col) {
+    private long dfs(int m, int n, int step, int row, int col) {
         if (step >= 0 && (row < 0 || row >= m || col < 0 || col >= n)) {
             return 1;
         } else if (step < 0) {
             return 0;
         }
-
-        int outOfBoard = 0;
-        for (int[] dir : DIRS) {
-            outOfBoard += dfs(m, n, step - 1, row + dir[0], col + dir[1]);
+        // 如果当前位置的结果已经计算过了，则直接返回记录的结果即可。
+        if (dp[row][col][step] != 0) {
+            return dp[row][col][step];
         }
+
+        long outOfBoard = 0;
+        for (int[] dir : DIRS) {
+            outOfBoard = (outOfBoard + dfs(m, n, step - 1, row + dir[0], col + dir[1])) % MOD;
+        }
+        dp[row][col][step] = outOfBoard;
         return outOfBoard;
     }
 }

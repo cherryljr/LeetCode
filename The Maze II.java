@@ -79,10 +79,13 @@ The maze contains at least 2 empty spaces, and both the width and height of the 
  * https://leetcode.com/articles/the-maze-ii/
  */
 class Solution {
+    // Use the direction array to make code more concise
+    private static final int[][] DIRS = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+
     public int shortestDistance(int[][] maze, int[] start, int[] dest) {
         int[][] distance = new int[maze.length][maze[0].length];
         // Initialize the distance array
-        for (int[] row: distance) {
+        for (int[] row : distance) {
             Arrays.fill(row, Integer.MAX_VALUE);
         }
         distance[start[0]][start[1]] = 0;
@@ -91,9 +94,7 @@ class Solution {
     }
 
     public void dfs(int[][] maze, int[] position, int[][] distance) {
-        // Use the direction array to make code more concise
-        int[][] dirs={{0,1}, {0,-1}, {-1,0}, {1,0}};
-        for (int[] dir: dirs) {
+        for (int[] dir : DIRS) {
             int x = position[0];
             int y = position[1];
             int count = 0;
@@ -157,6 +158,8 @@ class Solution {
  *  Space complexity :O(mn). queue size can grow upto m*n in the worst case..
  */
 class Solution {
+    private static final int[][] DIRS = {{0, 1} ,{0, -1}, {-1, 0}, {1, 0}};
+    
     public int shortestDistance(int[][] maze, int[] start, int[] dest) {
         int[][] distance = new int[maze.length][maze[0].length];
         // Initialize the distance array
@@ -166,12 +169,10 @@ class Solution {
         distance[start[0]][start[1]] = 0;
 
         Queue<int[]> queue = new LinkedList<>();
-        int[][] dirs={{0, 1} ,{0, -1}, {-1, 0}, {1, 0}};
         queue.add(start);
         while (!queue.isEmpty()) {
             int[] position = queue.poll();
-
-            for (int[] dir: dirs) {
+            for (int[] dir: DIRS) {
                 int x = position[0];
                 int y = position[1];
                 int count = 0;
@@ -191,6 +192,60 @@ class Solution {
                 if (distance[position[0]][position[1]] + count < distance[x][y]) {
                     distance[x][y] = distance[position[0]][position[1]] + count;
                     queue.add(new int[] {x, y});
+                }
+            }
+        }
+
+        return distance[dest[0]][dest[1]] == Integer.MAX_VALUE ? -1 : distance[dest[0]][dest[1]];
+    }
+}
+
+/**
+ * Approach 3: Dijkstra's Algorithm
+ * 求单源到到某一个节点的最短路径可以使用 Dijkstra's Algorithm 来进行解决。
+ * 虽然在这是属于杀鸡用牛刀的感觉了，但是也是一种挺好的解法。
+ * 关于 Dijkstra's Algorithm 的模板以及相关解析可以参考：
+ * Network Delay Time -- Approach 3:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Network%20Delay%20Time.java
+ *
+ * 这里使用了 distance[][] 替代了模板中 HashMap 的实现，速度会更快一些。
+ * 两种做法都可以，大家可以自行选择。
+ */
+class Solution {
+    private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+    public int shortestDistance(int[][] maze, int[] start, int[] dest) {
+        int[][] distance = new int[maze.length][maze[0].length];
+        // Initialize the distance array
+        for (int[] row: distance) {
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
+        // Sort the minHeap according to distance
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (a[2] - b[2]));
+        // Put the start position into minHeap
+        pq.offer(new int[]{start[0], start[1], 0});
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            if (distance[curr[0]][curr[1]] != Integer.MAX_VALUE) {
+                continue;
+            }
+
+            distance[curr[0]][curr[1]] = curr[2];
+            for (int[] dir : DIRS) {
+                int x = curr[0], y = curr[1];
+                int count = 0;
+                while (x >= 0 && y >= 0 && x < maze.length && y < maze[0].length && maze[x][y] == 0) {
+                    x += dir[0];
+                    y += dir[1];
+                    count++;
+                }
+                x -= dir[0];
+                y -= dir[1];
+                count--;
+                
+                if (distance[x][y] == Integer.MAX_VALUE) {
+                    pq.offer(new int[]{x, y, curr[2] + count});
                 }
             }
         }

@@ -66,18 +66,19 @@ class Solution {
         if (k == 1) {
             return preSum[n] / n;
         }
+        // 若当前状已经被计算过，则直接返回记录的结果
+        if (dp[n][k] != 0) {
+            return dp[n][k];
+        }
 
         for (int i = k - 1; i < n; i++) {
-            if (dp[i][k - 1] == 0) {
-                // 若需要的状态还未被计算过，则递归调用子过程进行计算
-                dp[i][k - 1] = LSA(A, i, k - 1);
-            }
             // 当前状态为 dp[n][k] 和 切分点在 i，左半段的 LSA + avg(i, n] 的值 中的最大值
-            dp[n][k] = Math.max(dp[n][k], dp[i][k - 1] + (preSum[n] - preSum[i]) / (n - i));
+            dp[n][k] = Math.max(dp[n][k], LSA(A, i, k - 1) + (preSum[n] - preSum[i]) / (n - i));
         }
         return dp[n][k];
     }
 }
+
 
 /**
  * Approach 2: DP

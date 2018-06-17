@@ -68,6 +68,7 @@ class Solution {
     private boolean canIWinHelper(int maxChoosableInteger, int desiredTotal, int state) {
         // if the previous player make desiredTotal <= 0, it means he can win, then the current player lose.
         if (desiredTotal <= 0) {
+        	dp[state] = -1;
             return false;
         }
         // if the current state has been calculated before, return the result directly

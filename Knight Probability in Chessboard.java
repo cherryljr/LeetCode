@@ -131,6 +131,10 @@ class Solution {
         if (K == 0) {
             return 1;
         }
+        // 若当前位置的信息已经被计算过，则直接返回记录的结果
+        if (dp[row][col][K] != 0) {
+            return dp[row][col][K];
+        }
 
         dp[row][col][K] = 0;    // 初始化当前值
         // 递归求解的调用过程
@@ -140,12 +144,9 @@ class Solution {
             if (nextRow < 0 || nextRow >= N || nextCol < 0 || nextCol >= N) {
                 continue;
             }
-            // 若需要位置的信息还未被计算过，则递归调用 dfs 进行计算
-            if (dp[nextRow][nextCol][K - 1] == 0) {
-                dp[nextRow][nextCol][K - 1] = dfs(N, K - 1, nextRow, nextCol);
-            }
+            
             // 计算当前状态信息（依赖于下一步的 8 个状态）
-            dp[row][col][K] += dp[nextRow][nextCol][K - 1];
+            dp[row][col][K] += dfs(N, K - 1, nextRow, nextCol);
         }
 
         return dp[row][col][K];

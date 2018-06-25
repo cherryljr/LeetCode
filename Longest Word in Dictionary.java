@@ -26,15 +26,15 @@ The length of words[i] will be in the range [1, 30].
 */
 
 /**
- * Approach 1: Brute Force
+ * Approach 1: HashSet + Pruning (Brute Force)
  * Algorithm
  * For each word, check if all prefixes word[:k] are present. We can use a Set structure to check this quickly.
  * Whenever our found word would be superior, we check if all it's prefixes are present, then replace our answer.
- * Alternatively, we could have sorted the words beforehand,
- * so that we know the word we are considering would be the answer if all it's prefixes are present.
- * 
+ * Of course, if the current word.length is smaller than best answer(rst) or the length is the same,
+ * but the current word has bigger lexicographical order, we will skip it. (Pruning)
+ *
  * Complexity Analysis
- * Time complexity : O(∑w_i^2), where w_i is the length of words[i]. 
+ * Time complexity : O(∑w_i^2), where w_i is the length of words[i].
  * Checking whether all prefixes of words[i] are in the set is O(∑w​i​^2).
  * Space complexity : O(∑w_i^2) to create the substrings.
  */
@@ -44,23 +44,32 @@ class Solution {
         for (String word : words) {
             wordset.add(word);
         }
-        Arrays.sort(words, (a, b) -> a.length() == b.length()
-                ? a.compareTo(b) : b.length() - a.length());
 
+        String rst = "";
         for (String word : words) {
-            boolean good = true;
-            for (int k = 1; k < word.length(); k++) {
-                if (!wordset.contains(word.substring(0, k))) {
-                    good = false;
+            // Pruning
+            if (word.length() < rst.length()
+                    || (word.length() == rst.length() && word.compareTo(rst) > 0)) {
+                continue;
+            }
+
+            // Check all prefixes of word in wordSet or not
+            StringBuilder prefix = new StringBuilder();
+            boolean isValid = true;
+            for (int i = 0; i < word.length() - 1; i++) {
+                prefix.append(word.charAt(i));
+                if (!wordset.contains(prefix.toString())) {
+                    isValid = false;
                     break;
                 }
             }
-            if (good) {
-                return  word;
+            // Update the best answer if the word is valid
+            if (isValid) {
+                rst = word;
             }
         }
 
-        return "";
+        return rst;
     }
 }
 
@@ -68,78 +77,89 @@ class Solution {
  * Approach 2: Trie + DFS
  * Algorithm
  * As prefixes of strings are involved, this is usually a natural fit for a trie (a prefix tree.)
- * Put every word in a trie, then depth-first-search from the start of the trie,
- * only searching nodes that ended a word.
+ * Put every word in a trie, then we can check the word's prefixes in the trie or not quickly,
  * Every node found (except the root, which is a special case) then represents a word with all it's prefixes present.
  * We take the best such word.
+ * Of course, we should also do pruning in this method.
  *
  * Complexity Analysis
- * Time Complexity: O(∑w_i), where w_i is the length of words[i].
- * This is the complexity to build the trie and to search it.
- * If we used a BFS instead of a DFS, and ordered the children in an array,
- * we could drop the need to check whether the candidate word at each node is better than the answer,
- * by forcing that the last node visited will be the best answer.
- * Space Complexity: O(∑w_i), the space used by our trie.
- *
- * More details and introduction about trie is here:
- * https://mp.weixin.qq.com/s/WTXUt9C0YEl6171HbVWXWQ
+ *  Time Complexity: O(∑w_i), where w_i is the length of words[i].
+ *  This is the complexity to build the trie and to search it.
+ * Space Complexity: O(26*∑w_i), the space used by our trie.
  */
 class Solution {
     public String longestWord(String[] words) {
         Trie trie = new Trie();
-        int index = 0;
-        for (String word: words) {
-            trie.insert(word, ++index);  // indexed by 1
+        // Build the trie
+        for (String word : words) {
+            trie.insert(word);
         }
-        trie.words = words;
-        return trie.dfs();
-    }
-}
 
-class Node {
-    char c;
-    HashMap<Character, Node> children = new HashMap();
-    int end;
-    public Node(char c){
-        this.c = c;
-    }
-}
-
-class Trie {
-    Node root;
-    String[] words;
-    public Trie() {
-        root = new Node('0');
-    }
-
-    public void insert(String word, int index) {
-        Node cur = root;
-        for (char c : word.toCharArray()) {
-            cur.children.putIfAbsent(c, new Node(c));
-            cur = cur.children.get(c);
-        }
-        cur.end = index;
-    }
-
-    public String dfs() {
-        String ans = "";
-        Stack<Node> stack = new Stack<>();
-        stack.push(root);
-        while (!stack.empty()) {
-            Node node = stack.pop();
-            if (node.end > 0 || node == root) {
-                if (node != root) {
-                    String word = words[node.end - 1];
-                    if (word.length() > ans.length() ||
-                            word.length() == ans.length() && word.compareTo(ans) < 0) {
-                        ans = word;
-                    }
-                }
-                for (Node nei: node.children.values()) {
-                    stack.push(nei);
-                }
+        String rst = "";
+        for (String word : words) {
+            // Pruning
+            if (word.length() < rst.length()
+                    || (word.length() == rst.length() && word.compareTo(rst) > 0)) {
+                continue;
+            }
+            // Check the prefixes
+            if (trie.hasAllPrefixes(word)) {
+                rst = word;
             }
         }
-        return ans;
+        return rst;
+    }
+
+    class TrieNode {
+        TrieNode[] child;
+        boolean isWord;
+
+        TrieNode() {
+            this.child = new TrieNode[26];
+            this.isWord = false;
+        }
+    }
+
+    class Trie {
+        TrieNode root;
+
+        Trie() {
+            root = new TrieNode();
+        }
+
+        public void insert(String word) {
+            // if (word == null || word.length() == 0) {
+            //     return;
+            // }
+            TrieNode currNode = root;
+            char[] chars = word.toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                int index = chars[i] - 'a';
+                if (currNode.child[index] == null) {
+                    currNode.child[index] = new TrieNode();
+                }
+                currNode = currNode.child[index];
+            }
+            currNode.isWord = true;
+        }
+
+        public boolean hasAllPrefixes(String word) {
+            // if (word == null || word.length() == 0) {
+            //     return true;
+            // }
+            TrieNode currNode = root;
+            char[] chars = word.toCharArray();
+            for (int i = 0; i < chars.length - 1; i++) {
+                int index = chars[i] - 'a';
+                if (currNode.child[index] == null) {
+                    return false;
+                }
+                currNode = currNode.child[index];
+                if (!currNode.isWord) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

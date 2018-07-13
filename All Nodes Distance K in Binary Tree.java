@@ -39,7 +39,7 @@ The target node is a node in the tree.
  *
  * 类似的问题：
  * Closest Leaf in a Binary Tree：
- *  
+ *  https://github.com/cherryljr/LeetCode/blob/master/Closest%20Leaf%20in%20a%20Binary%20Tree.java
  *
  * 参考资料（存在第二种解法）：
  *  http://zxi.mytechroad.com/blog/tree/leetcode-863-all-nodes-distance-k-in-binary-tree/

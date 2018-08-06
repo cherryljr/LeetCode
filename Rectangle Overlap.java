@@ -68,7 +68,7 @@ class Solution {
  *  Time and Space Complexity: O(1).
  *
  * This Method is also applied in LeetCode 223: Rectangle Area
- *
+ *  https://github.com/cherryljr/LeetCode/blob/master/Rectangle%20Area.java
  */
 class Solution {
     public boolean isRectangleOverlap(int[] rec1, int[] rec2) {

@@ -21,7 +21,7 @@ Assume that the total area is never beyond the maximum possible value of int.
  * 同时这里也提供了一种判断矩形是否相交的做法，
  * 除此之外我们还有其他的方法可以用来判断两个矩阵是否相交。
  * 详情可以参考：
- * 	
+ *  https://github.com/cherryljr/LeetCode/blob/master/Rectangle%20Overlap.java
  */
 class Solution {
     public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {

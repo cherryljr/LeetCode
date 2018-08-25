@@ -40,7 +40,7 @@ The graph is undirected: if any element j is in graph[i], then i will be in grap
  * Approach: Graph Coloring Based on DFS
  * 与 LeetCode 886: Possible Bipartition 基本相同。
  * 详细解析和 BFS 的做法可以参考：
- *
+ *  https://github.com/cherryljr/LeetCode/blob/master/Possible%20Bipartition.java
  *
  * 时间复杂度：O(V+E)
  */

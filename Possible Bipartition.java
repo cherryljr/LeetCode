@@ -42,8 +42,8 @@ There does not exist i != j for which dislikes[i] == dislikes[j].
  * 注意：这里为了泛用性直接使用了 Map 来进行建图，但是本题数据明确在 1~N，因此使用 List 即可。
  * 这样可以节省非常多的时间。（为了方便起见这里还使用了 Lamda 表达式，为了追求速度的话，请不要这么写）
  * 对于 数组的实现 方法，可以参考：
- * Is Graph Bipartite?：
- *  
+ * Is Graph Bipartite：
+ *  https://github.com/cherryljr/LeetCode/blob/master/Is%20Graph%20Bipartite.java
  * 
  * 参考资料：
  *  https://www.youtube.com/watch?v=VlZiMD7Iby4

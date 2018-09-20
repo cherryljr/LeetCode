@@ -30,10 +30,10 @@ Answers within 10^-6 of the correct answer will be accepted as correct.
  * 
  * 对此，我们可以从 递归 的角度去分析题目，并加上 记忆化搜索 即可。（这也是动态规划的本质所在）
  * 决定结果的信息有：数组A，需要被划分的段数K。
- * dp[n][k] 表示：前 n 个元素，划分成 k 段的最大平均值之和是多少。
+ * mem[n][k] 表示：前 n 个元素，划分成 k 段的最大平均值之和是多少。
  * 而我们需要做的就是去枚举每一个划分点的位置 i.
- * 因此 dp[n][k] = Math.max(dp[n][k], dp[i][k - 1] + avg(i, n));
- * 有了以上过程，我们只需要使用一个二维数组 dp[][] 将其存储起来，从而实现记忆化搜索即可。
+ * 因此 mem[n][k] = Math.max(mem[n][k], mem[i][k - 1] + avg(i, n));
+ * 有了以上过程，我们只需要使用一个二维数组 mem[][] 将其存储起来，从而实现记忆化搜索即可。
  * （这里为了方便直接将 dp 和 preSum 定义为成员变量，以便递归函数直接访问，避免了引用传递。但是在实际工程中，还是要认真考虑下的）
  * 
  * 为了优化对数组A i~n 段的求平均值过程，我们可以实现计算一个 preSum[] 
@@ -46,39 +46,39 @@ Answers within 10^-6 of the correct answer will be accepted as correct.
  *  https://github.com/cherryljr/LintCode/blob/master/Word%20Break%20II.java
  */
 class Solution {
-    double[][] dp;
     double[] preSum;
+    double[][] mem;
 
     public double largestSumOfAverages(int[] A, int K) {
         int N = A.length;
-        dp = new double[N + 1][K + 1];
+        mem = new double[N + 1][K + 1];
         // 计算前项和，以在 O(1) 的时间内计算平均值
         preSum = new double[N + 1];
-        for (int i = 1; i <= N; i++) {
+        for (int i = 1; i <= A.length; i++) {
             preSum[i] = preSum[i - 1] + A[i - 1];
         }
-        return LSA(A, N, K);
+
+        return LSA(N, K);
     }
 
-    private double LSA(int[] A, int n, int k) {
+    private double LSA(int n, int k) {
         // 当只剩下 1 段时，说明将 1~n 划分为 1 段。
         // 此时直接返回 avg(1, n) 即可
         if (k == 1) {
             return preSum[n] / n;
         }
         // 若当前状已经被计算过，则直接返回记录的结果
-        if (dp[n][k] != 0) {
-            return dp[n][k];
+        if (mem[n][k] != 0) {
+            return mem[n][k];
         }
 
         for (int i = k - 1; i < n; i++) {
-            // 当前状态为 dp[n][k] 和 切分点在 i，左半段的 LSA + avg(i, n] 的值 中的最大值
-            dp[n][k] = Math.max(dp[n][k], LSA(A, i, k - 1) + (preSum[n] - preSum[i]) / (n - i));
+            // 当前状态为 mem[n][k] 与 切分点在 i，左半段的 LSA + avg(i, n] 的值 中的最大值
+            mem[n][k] = Math.max(mem[n][k], LSA(i, k - 1) + (preSum[n] - preSum[i]) / (n - i));
         }
-        return dp[n][k];
+        return mem[n][k];
     }
 }
-
 
 /**
  * Approach 2: DP

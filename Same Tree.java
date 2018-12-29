@@ -89,7 +89,8 @@ Output: false
  *  return conquerFunc(root1, root2, sub1, sub2)
  *
  * 该模板适用于 多棵树 问题的解决。案例有：
- *
+ * Symmetric Tree:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Symmetric%20Tree.java
  * Flip Equivalent Binary Trees:
  *  https://github.com/cherryljr/LeetCode/blob/master/Flip%20Equivalent%20Binary%20Trees.java
  *

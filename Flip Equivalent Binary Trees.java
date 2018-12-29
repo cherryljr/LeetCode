@@ -21,11 +21,18 @@ Each value in each tree will be a unique integer in the range [0, 99].
 
 /**
  * Approach: Divide and Conquer (Recursion)
- * 看到 Tree 类型的题目。第一反应就是可以利用 Divide and Conquer 来解决。
+ * 这道问题实际上是 Same Tree 和 Symmetric Tree 这两道问题的整合升级版。
+ * 做法依旧是使用 Divide and Conquer 的思想
  * 分别判断左右孩子的条件是否成立，然后依次递归下去即可。
+ * 关于 Divide and Conquer 做法在 Tree 方面的应用以及模板总结可以参见 Same Tree.
  *
  * 时间复杂度：O(min(N1, N2)) N1, N2 为两棵树的节点个数
  * 空间复杂度：O(min(H1, H2)) H1, H2 为两棵树的高度
+ *
+ * Same Tree:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Same%20Tree.java
+ * Symmetric Tree:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Symmetric%20Tree.java
  */
 
 /**

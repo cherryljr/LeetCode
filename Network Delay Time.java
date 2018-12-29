@@ -171,8 +171,7 @@ class Solution {
  * 但是 dp[2] 可以通过 1->2 被计算出其 minDistance.也就不再是 MAX 了。
  * 然后继续下去，我们发现只有再经过 2 次上述过程，dp[4] 的值才能被正确计算出来。
  * 因此我们必须进行 V-1 次 DP 过程，以保证在最坏情况下起始点到每一个点的 minDistance 都能被计算出来。
- * 然而实际效果上，其移动次数通常 大于 V-1 次，这是为什么呢？
- * 有兴趣的可以参见：
+ * 对于该情况的具体实例，有兴趣的可以参见：
  * Cheapest Flights Within K Stops
  *  https://github.com/cherryljr/LeetCode/blob/master/Cheapest%20Flights%20Within%20K%20Stops.java
  *

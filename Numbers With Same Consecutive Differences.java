@@ -36,6 +36,8 @@ Note:
  *
  * PS.这里使用到了 stream 来方面我们代码的书写（Stream为 Java 8 中对集合（Collection）对象功能的增强）
  * 有兴趣的朋友可以参考：
+ *  https://juejin.im/post/5a5eba2c518825732739a028
+ *  https://juejin.im/post/5a616731f265da3e5b32de36
  *  https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html
  */
 class Solution {

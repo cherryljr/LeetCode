@@ -71,6 +71,8 @@ Output: false
  *  https://github.com/cherryljr/LintCode/blob/master/Maximum%20Depth%20of%20Binary%20Tree.java
  * Minimum Depth of Binary Tree:
  *  https://github.com/cherryljr/LintCode/blob/master/Minimun%20Depth%20of%20Binary%20Tree.java
+ * Distribute Coins in Binary Tree:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Distribute%20Coins%20in%20Binary%20Tree.java
  *
  * 讨论完 单棵树 的解决方案，我们不妨扩展一下，试着解决 多颗树（通常为两棵） 之间关系的问题。
  * 因为流程与上述完全相同，只是在条件判断时有所不同，因此这里就直接给出模板伪代码与注释了。

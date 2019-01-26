@@ -33,16 +33,32 @@ Note:
  * 这道题目刚刚看到的时候，感觉有点懵，不清楚怎么做。
  * 但是对于 Tree 类的题目，好歹有个大致的处理模板。
  * 因此先按照这个方向去想（使用 Divide and Conquer 的思想，然后利用 Recursion 实现）
- * 不妨设递归函数的作用为：将当前子树调整为平衡状态（每个点的硬币个数为1），并返回需要转移的次数。
- * 而结果就是对转移次数的不断累加。
+ * 不妨设递归函数的作用为：将当前子树调整为平衡状态（每个点的硬币个数为1），并返回需要转移的硬币个数。
+ * 注意，这里返回的是个数，可以用 正负数 来表示。
+ * 正数代表：多余 x 个； 负数代表：不足 x 个。
+ * 这样我们才能根据返回的结果对上一层的进行一个分配。
+ * 而我们最终需要的结果可以作为一个全局变量，在硬币发生转移的时候不断累加。
+ * 即在本题中我们需要两个信息：
+ *  1. 硬币转移的次数
+ *  2. 将当前子树balance之后，需要的硬币个数。
+ * 第一个信息可以在递归过程中直接进行累加；
+ * 而第二个信息需要通过递归调用返回，从而帮助我们对当前情况进行判断。
+ * 而这也是该类型题目较难的原因，或者是与简单模板题的不同之处。
+ *  即返回的通常并不是题目直接需要的结果，而是一个状态；
+ *  然后我们需要通过该状态来对当前情况进行判断，从而影响最终结果。
+ *  而最终结果的计算是直接在递归过程中进行的。
  *
  * 时间复杂度：O(n)
  * 空间复杂度：O(h) (h is the height of the tree)
  *
  * Reference:
  *  https://youtu.be/zQqku1AXVF8
+ * 类似的问题：
+ * Binary Tree Cameras:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Binary%20Tree%20Cameras.java
+ * 模板题分析：
+ *  https://github.com/cherryljr/LeetCode/blob/master/Same%20Tree.java
  */
-
 /**
  * Definition for a binary tree node.
  * public class TreeNode {

@@ -91,9 +91,19 @@ class Solution {
  * 它可以求出单点出发到所有点的最短路径是多少。非常适合这道题目。
  * 其实质是一个贪心算法，有向图和无向图中均可使用，但是权值不能够是负数。
  * （如果权值为负数可以使用 Bellman-Ford 算法）
- * 
+ *
+ * Dijkstra算法 在实现上与 BFS模板 十分类似，主要区别有如下两点：
+ *  1. 使用了 PriorityQueue 来替代 Queue
+ *  2. 对 Node(Position) 进行记录的时间不同。
+ *   在 BFS 中，我们在将 node 放入队列的时候，我们就会在 distanceMap 中记录对应的数据；
+ *   但是在 Dijkstra 中，我们是在 node 从队列中取出来的时候，记录对应的数据。
+ *  这是因为：
+ *   我们知道 distanceMap 记录的是从起点到当前位置的 最短路径，
+ *   而在 Dijkstra 中，最短路径是在 node 从 Priority Queue 被取出来的时候决定的。
+ *  如果仍然无法理解可以参考下面给出的算法讲解视频。
+ *
  * 时间复杂度：O(ElogV)
- * 
+ *
  * 关于该算法的介绍可以参考：
  *  https://www.youtube.com/watch?v=lAXZGERcDf4
  */
@@ -123,6 +133,8 @@ class Solution {
             if (distances.containsKey(pos)) {
                 continue;
             }
+            // Attention Here !!!
+            // record the position and distance (the position node has been pop from the priority queue)
             distances.put(pos, dis);
 
             if (graph.containsKey(pos)) {

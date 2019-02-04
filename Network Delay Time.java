@@ -93,19 +93,21 @@ class Solution {
  * （如果权值为负数可以使用 Bellman-Ford 算法）
  *
  * Dijkstra算法 在实现上与 BFS模板 十分类似，主要区别有如下两点：
- *  1. 使用了 PriorityQueue 来替代 Queue
- *  2. 对 Node(Position) 进行记录的时间不同。
+ *  1. 使用了 PriorityQueue 来替代 Queue；
+ *  2. 对 Node(Position) 进行记录的时间不同；
  *   在 BFS 中，我们在将 node 放入队列的时候，我们就会在 distanceMap 中记录对应的数据；
  *   但是在 Dijkstra 中，我们是在 node 从队列中取出来的时候，记录对应的数据。
  *  这是因为：
  *   我们知道 distanceMap 记录的是从起点到当前位置的 最短路径，
  *   而在 Dijkstra 中，最短路径是在 node 从 Priority Queue 被取出来的时候决定的。
- *  如果仍然无法理解可以参考下面给出的算法讲解视频。
+ *  3. 将一个点 poll 出来时，我们需要在这是判断这个点是否已经处理过；
+ *  这是因为由第二点可知：只有当该节点被 poll 出来的时候，distances才会记录这个点被处理过
+ *   所以有可能一个点被 put 进来多次，但是只要被处理过一次，
+ *   后面的到达该节点的路径就不是最优解，需要ignore掉（这也就是Dijkstra算法的贪心点所在）
+ *
+ * 如果无法理解上述说明可以参考视频：https://www.youtube.com/watch?v=lAXZGERcDf4
  *
  * 时间复杂度：O(ElogV)
- *
- * 关于该算法的介绍可以参考：
- *  https://www.youtube.com/watch?v=lAXZGERcDf4
  */
 class Solution {
     public int networkDelayTime(int[][] times, int N, int K) {
@@ -129,7 +131,7 @@ class Solution {
         while (!pq.isEmpty()) {
             int[] curr = pq.poll();
             int pos = curr[0], dis = curr[1];
-            // Ignore processed nodes
+            // Ignore processed nodes 
             if (distances.containsKey(pos)) {
                 continue;
             }

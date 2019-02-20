@@ -82,6 +82,10 @@ class Solution {
  * 
  * 时间复杂度：O(log(sum(nums)) * n)
  * 空间复杂度：O(1)
+ *
+ * 类似的问题：
+ * Maximum Average Subarray II:
+ * 	https://github.com/cherryljr/LintCode/blob/master/Maximum%20Average%20Subarray%20II.java
  */
 class Solution {
     public int splitArray(int[] nums, int m) {

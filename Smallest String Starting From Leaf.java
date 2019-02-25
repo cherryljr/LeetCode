@@ -27,7 +27,7 @@ Note:
  */
 
 /**
- * Approach: Divide anc Conquer
+ * Approach: Divide and Conquer
  * 看到这个问题，第一反应就是 Divide and Conquer。
  * 用 DFS 去做就行了，可以算是模板题目了。
  * 注意点：

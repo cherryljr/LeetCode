@@ -69,7 +69,78 @@ class Solution {
 }
 
 /**
- * Approach 2: DP (Top-Down)
+ * Approach 2: DFS with Memory Search
+ * 因为 target 在运算过程中，可能会存在负值的情况。
+ * 所以这里为了方便起见，直接封装了一个 Node 类来记录信息。
+ * 然后使用 HashMap 的key来存储这些状态节点，value来存储计算过的值。
+ * 这里涉及到了比较，所以需要重写 Node 的 hashCode 和 equals 方法。
+ *
+ * 当然，我们还可以利用数组和作为一个 offset 将负值转换为非负数。
+ * 从而利用 数组 来实现，但是在实现上并没有更快（很尴尬。。。）
+ * 并且值得注意的是：
+ *  当 target 值较大的话，arraySum(offset) + target 是会存储越界的情况的。
+ *  幸运的是，题目中说明了，arraySum 的值不会超过 1000，所以当 target 太大的话，我们可以得知该方法不存在。
+ * （但是以后解题的过程，或者是面试过程中，如果没有明确说明数据范围的话，涉及到这些相加/相乘操作时，一定要谨防越界）
+ */
+class Solution {
+    HashMap<Node, Integer> mem = new HashMap<>();
+
+    public int findTargetSumWays(int[] nums, int S) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        return dfs(nums, 0, S);
+    }
+
+    private int dfs(int[] nums, int index, int target) {
+        if (index == nums.length) {
+            if (target == 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        Node node = new Node(index, target);
+        if (mem.containsKey(node)) {
+            return mem.get(node);
+        }
+
+        int count = 0;
+        count += dfs(nums, index + 1, target + nums[index]);
+        count += dfs(nums, index + 1, target - nums[index]);
+        mem.put(new Node(index, target), count);
+        return count;
+    }
+
+    class Node {
+        int index;
+        int sum;
+
+        Node(int index, int sum) {
+            this.index = index;
+            this.sum = sum;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node node = (Node) o;
+            return index == node.index &&
+                    sum == node.sum;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(index, sum);
+        }
+    }
+}
+
+/**
+ * Approach 3: DP (Top-Down)
  * 虽然题目的数据量很小，但是分析后我们发现这是一道无后效性的题目。
  * 因此我们可是使用 DP 来解决。
  * 涉及到的信息有：位置信息 和 当前值。
@@ -114,7 +185,7 @@ class Solution {
 }
 
 /**
- * Approach 3: Subset Sum -> Turn to 01 Backpack
+ * Approach 4: Subset Sum -> Turn to 01 Backpack
  * 我们知道一种方案中必定是用到了所有的数字，那么每个数要么前面是 +, 要么是 -.
  * 因此可以将前面符号为 + 的数字集合记为 P; 将前面符号为 - 的数字集合记为 N.
  * 则有：P ∪ N = nums[], P ∩ N = ∅

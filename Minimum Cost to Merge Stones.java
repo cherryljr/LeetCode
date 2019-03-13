@@ -49,9 +49,9 @@ Note:
  * 空间复杂度：O(n^2 * k)
  *
  * 类似的问题：
- *
+ *  https://github.com/cherryljr/LintCode/blob/master/Segment%20Stones%20Merge.java
  * 区间DP问题的解题步骤模板：
- * 
+ *  https://github.com/cherryljr/LeetCode/blob/master/Burst%20Balloons.java
  */
 class Solution {
     private static final int INF = 0x3f3f3f3f;

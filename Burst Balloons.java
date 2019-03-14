@@ -18,9 +18,7 @@ Return 167
 /**
  * Approach: Interval DP
  * 这道题目与 Strange Printer 有一定的类似，但是并不明显。
- * 下面我将会分析开题的解题思路并与 Strange Printer 进行对比，希望能帮助大家理解。
- * Strange Printer:
- * https://github.com/cherryljr/LeetCode/blob/master/Strange%20Printer.java
+ * 下面我将会分析该题的解题思路并与 Strange Printer 进行对比，希望能帮助大家理解。
  *
  * 思路：
  * 题目想要求我们通过一种方式引爆气球使得最后的得分最高。
@@ -39,15 +37,17 @@ Return 167
  * 对此我们用到了 序列的动态规划：
  * dp[i][j] 表示区间 [i...j] 所能得到的 maxCoins.
  *
- * 接下来的分析情况与 Strange Printer 有些许类似 （为了便于理解，我尽量保持二者代码的一致以便对比）
- *  首先，我们需要遍历所有 区间长度l, 并计算出它们对于的 maxCoins；
- *  然后，在各个区间中，我们可以利用 pivot 作为分割点对区间进行分割以便我们计算出 maxCoins；
+ * 接下来的分析情况与 Strange Printer 有些许类似 （为了便于理解，我尽量保持二者代码的一致以便对比）总体可分为以下几个步骤：
+ *  ① 我们需要枚举所有 合法的区间长度l, 并计算出它们对于的 maxCoins；
+ *  ② 枚举所有可能的起始位置start，作为区间的左边界（起始位置start + 区间长度l <= 数组总长度len）
+ *  ③ 在各个区间中，我们可以利用 pivot 作为分割点对区间进行分割以便我们计算出 maxCoins；
  *  注意，根据以上分析，这里的 pivot 代表的就是这段区间中 最后一个被引爆的气球。
- *  我们需要对区间中的各个位置进行一遍枚举，求出最佳位置才能得到 这段区间的maxCoins。
- *  （同样，对应于 Strange Printer 中的 pivot 代表的是可能与 s[start] 相等的字符，
+ *  即在区间范围内枚举 pivot 的位置，求出最佳位置，从而得到 这段区间的maxCoins。
+ * （同样，对应于 Strange Printer 中的 pivot 代表的是可能与 s[start] 相等的字符，
  *  如果相等，就意味着可以对 dp[start][end] 的大小进缩减，即减少打印次数，
  *  所以我们也要对它的位置进行 枚举 来求出该段区间的最少打印次数）。
- *  回到本题，coins 的计算由左右两个点的分乘以 pivot 点的分所得。因此可推断出如下公式:
+ *  ④ 根据题目条件分析出 dp[start][end] 的递推方程
+ *  coins 的计算由左右两个点的分乘以 pivot 点的分所得。因此可推断出如下公式:
  *  dp[start][end] = nums[start] * nums[pivot] * nums[end] + pivot左部分的最大值 + pivot右部分的最大值。
  *  因为在计算 左/右部分 的maxCoins时需要用到 pivot 的值，所以 左右部分maxCoins和 公式为 dp[start][pivot] + dp[pivot[end].
  *
@@ -56,8 +56,13 @@ Return 167
  *  而对于各个区间，我们还需要枚举 pivot 的值来进行分割以求得该区间的 maxCoins。
  *  因此处理一个区间的时间复杂度为：O(n)
  *  故，整体时间复杂为：O(n^3)
- *  空间复杂度分析:
+ * 空间复杂度分析:
  *  动态规划需要一个二维数组，因此时间复杂度为：O(n^2)
+ *
+ * 类似的问题：
+ *  https://github.com/cherryljr/LeetCode/blob/master/Strange%20Printer.java
+ *  https://github.com/cherryljr/LeetCode/blob/master/Minimum%20Cost%20to%20Merge%20Stones.java
+ *  https://github.com/cherryljr/LintCode/blob/master/Segment%20Stones%20Merge.java
  */
 class Solution {
     public int maxCoins(int[] iNums) {
@@ -77,8 +82,9 @@ class Solution {
         nums[0] = nums[len++] = 1;
         int[][] dp = new int[len][len];
 
-        // 遍历所有区间长度
+        // 枚举所有合法的区间长度
         for (int l = 2; l <= len; l++) {
+            // 枚举所有可能的起始位置
             for (int start = 0; start + l <= len; start++) {
                 int end = start + l - 1;
                 // 遍历当前区间，枚举 分段点pivot 并利用它将当前区间分段为 nums[start, pivot] 和 nums[pivot+1, end]

@@ -61,7 +61,7 @@ class Solution {
  * 与 Continuous Subarray Sum 的 Approach 2 一样，利用一点数学可以节省一些时间（省去第二个 for 循环）
  * 在 Continuous Subarray Sum 中我们利用到了 (a + (n*k))%k == a%k 这个特性。
  * 而这里我们要利用的则是:
- *  a%k + b%k == k  ==>  (a+b) % k == 0
+ *  a%k + b%k == k  ==> (a%k + b%k) % k == k%k == 0  ==>  (a+b) % k == 0
  * 道理应该还是比较浅显易懂的...
  *
  * 根据这个知识，我们可以对代码进行如下优化。

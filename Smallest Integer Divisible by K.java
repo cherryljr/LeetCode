@@ -22,7 +22,7 @@ Note:
  */
 
 /**
- * Approach: Pigeonhole Principle + MOD (Detail Explanation)
+ * Approach: Pigeonhole Principle + MOD
  * 对于个位上数 2 或者 5 以及他们倍数的数字，其乘积是无法产生 1 的。
  * 因此对于这些数，我们直接 return -1 即可。
  *
@@ -61,12 +61,9 @@ Note:
  *         = (n1%k*a + c) % k
  * 则结论得证
  *
- * 考察到了 取余数学知识 的类似问题有：
- * Continuous Subarray Sum:
- *  https://github.com/cherryljr/LeetCode/blob/master/Continuous%20Subarray%20Sum.java
- * Pairs of Songs With Total Durations Divisible by 60:
- *  https://github.com/cherryljr/LeetCode/blob/master/Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.java
- *
+ * Reference:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Binary%20Prefix%20Divisible%20By%205/Binary%20Prefix%20Divisible%20By%205.java
+ * 
  * 使用到了 Pigeonhole Principle 的类似问题有：
  * Maximum Gap:
  *  https://github.com/cherryljr/LeetCode/blob/master/Maximum%20Gap.java

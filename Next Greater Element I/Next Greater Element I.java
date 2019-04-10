@@ -70,6 +70,12 @@ class Solution {
  *
  * 时间复杂度：O(n)
  * 空间复杂度：O(n)
+ * 
+ * 类似的问题：
+ * Daily Temperatures:
+ *  https://github.com/cherryljr/LeetCode/blob/master/Daily%20Temperatures.java
+ * Max Tree:
+ *  https://github.com/cherryljr/LintCode/blob/master/Max%20Tree.java
  */
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {

@@ -39,10 +39,8 @@ class Solution:
         allRes = {}
         stack = []
         for num in nums2:
-            while len(stack) and num > stack[-1]:
+            while stack and num > stack[-1]:
                 allRes[stack.pop()] = num
             stack.append(num)
         
-        ans = []
-        ans = [allRes.get(num, -1) for num in nums1]
-        return ans
+        return [allRes.get(num, -1) for num in nums1]

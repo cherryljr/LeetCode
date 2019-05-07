@@ -35,21 +35,17 @@ Note:
 # 空间复杂度：O(R * C)
 class Solution:
     def allCellsDistOrder(self, R: int, C: int, r0: int, c0: int) -> List[List[int]]:
-        from collections import deque
-        queue = deque()
-        queue.append((r0, c0))
-        visited, ans = {(r0, c0)}, []
-        while queue:
-            curr = queue.popleft()
-            ans.append(curr)
-            for d in [(0, -1), (0, 1), (-1, 0), (1, 0)]:
-                nextX = curr[0] + d[0]
-                nextY = curr[1] + d[1]
-                if nextX < 0 or nextX >= R or nextY < 0 or nextY >= C or (nextX, nextY) in visited:
+        ans, queue, visited = [], [[r0, c0]], set([(r0, c0)])
+        for r, c in queue:
+            ans.append([r, c])
+            for i, j in [[0, -1], [0, 1], [-1, 0], [1, 0]]:
+                nextR, nextC = r + i, c + j
+                if nextR < 0 or nextR >= R or nextC < 0 or nextC >= C or (nextR, nextC) in visited:
                     continue
-                queue.append((nextX, nextY))
-                visited.add((nextX, nextY))
+                queue.append([nextR, nextC])
+                visited.add((nextR, nextC))
         return ans
+
 
 # Approach 2: Sort Distance (Brute Force)
 # 可以直接计算出每个点到 (r0, c0) 的距离，然后依次进行排序即可

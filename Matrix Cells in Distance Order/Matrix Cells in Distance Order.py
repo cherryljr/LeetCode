@@ -47,7 +47,7 @@ class Solution:
         return ans
 
 
-# Approach 2: Sort Distance (Brute Force)
+# Approach 2: Sort Distance
 # 可以直接计算出每个点到 (r0, c0) 的距离，然后依次进行排序即可
 # 时间复杂度：O(R * C * log(R*C))
 # 空间复杂度：O(R * C)

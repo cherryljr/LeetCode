@@ -40,7 +40,7 @@ Note:
  *  情况一：  XXX
  *  三个石头的位置两两相邻，此时无法进行移动，因此 minimum_moves = 0, maximum_moves = 0
  *  情况二： XX_X    X_XX    X_X_X    X_X___X
- *  三个石头中至少存在两个石头之间的间距 ≤1.
+ *  三个石头非两两相邻，并且至少存在两个石头之间的间距 ≤1.
  *  此时对于 minimum_moves 而言，只需要一次即可将石头移动到对应空缺的那个位置上，即 minimum_moves = 1
  *  对于 maximum_moves 而言，每次移动缩小 1 的间距，因此 maximum_moves = max - min - 2
  *  情况三： X__X__X

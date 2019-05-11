@@ -31,7 +31,7 @@ Note:
     4. a != b, b != c, c != a
 '''
 
-# Approach: Sorting
+# Approach: Sorting (May Use Sliding Window in N Stones)
 # 解法详解参考同名 java 文件
 # 时间复杂度：O(1)
 # 空间复杂度：O(1)

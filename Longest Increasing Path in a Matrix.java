@@ -31,17 +31,18 @@ The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
  *      [1, 2, 3, 4]
  *      [2, 3, 4, 5]
  *      [3, 4, 5, 6]
- * 上述矩阵就存在着大量的重复计算，时间复杂度为：O(2^n)
+ * 上述矩阵就存在着大量的重复计算
  *
  * 对此我们可以利用 Memory Search 进行时间复杂度的优化，避免重复计算。
  * 而这实际上就是一个 DP 的过程。
  * 当前状态依赖于其周围 4个 邻居节点的状态。
- * 当 matrix[nextRow][nextCol] > matrix[row][col] 时，则说明这是一条递增路径。
- * 因此如果该条路径成立，则 dp[row][col] = Math.max(dp[row][col], dp[nextRow][nextCol] + 1)
- * 因为我们使用了 dp[][] 来记录各个节点的 longest Increasing Path,
+ *  mem[row][col] 表示以 matrix[row][col] 作为终点的 longest Increasing Path
+ * 当 matrix[nextRow][nextCol] < matrix[row][col] 时，则说明这是一条递增路径。
+ * 因此如果该条路径成立，则 mem[row][col] = Math.max(mem[row][col], mem[nextRow][nextCol] + 1)
+ * 因为我们使用了 mem[][] 来记录各个节点的 longest Increasing Path,
  * 所以当再次需要这个值，且该值已经被计算过时，可以直接返回。
  * 这里的 Recursion 看似没有结束条件，但是问题的规模是在一步步缩小的，因此并不会陷入死循环中。
- * （只有当遇到 matrix[nextRow][nextCol] > matrix[row][col] 时才会发生递归调用操作。）
+ * （只有当遇到 matrix[nextRow][nextCol] < matrix[row][col] 时才会发生递归调用操作。）
  *
  * 时间复杂度：O(MN)
  * 对于每个结点，其值依赖于周围四个节点，计算时间复杂度为O(1)
@@ -53,6 +54,7 @@ The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
  */
 class Solution {
     private static final int[][] DIRS = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    int[][] mem;
 
     public int longestIncreasingPath(int[][] matrix) {
         if (matrix == null || matrix.length == 0
@@ -60,38 +62,36 @@ class Solution {
             return 0;
         }
 
-        int rows = matrix.length, cols = matrix[0].length;
-        int[][] dp = new int[rows][cols];
-
-        int maxPath = 1;
+        int rows = matrix.length, cols = matrix[0].length, maxPath = 1;;
+        mem = new int[rows][cols];
         // DFS from each cell
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                // Update the maxLen
-                maxPath = Math.max(maxPath, dfs(dp, matrix, i, j));
+                // Update the maxPath
+                maxPath = Math.max(maxPath, dfs(matrix, i, j));
             }
         }
 
         return maxPath;
     }
 
-    private int dfs(int[][] dp, int[][] matrix, int row, int col) {
-        dp[row][col] = 1;   // 初始化当前值
+    private int dfs(int[][] matrix, int row, int col) {
+        // 如果已经计算过了，直接 return 即可
+        if (mem[row][col] != 0) {
+            return mem[row][col];
+        }
+
+        mem[row][col] = 1;   // 初始化当前值
         for (int[] dir : DIRS) {
             int nextRow = row + dir[0];
             int nextCol = col + dir[1];
             if (nextRow < 0 || nextRow >= matrix.length || nextCol < 0 || nextCol >= matrix[0].length
-                    || matrix[nextRow][nextCol] <= matrix[row][col]) {
+                    || matrix[nextRow][nextCol] >= matrix[row][col]) {
                 continue;
             }
-            // 如果需要的值还没被计算过，则递归调用 DFS 进行计算
-            if (dp[nextRow][nextCol] == 0) {
-                dp[nextRow][nextCol] = dfs(dp, matrix, nextRow, nextCol);
-            }
             // 计算当前状态信息
-            dp[row][col] = Math.max(dp[row][col], dp[nextRow][nextCol] + 1);
+            mem[row][col] = Math.max(mem[row][col], dfs(matrix, nextRow, nextCol) + 1);
         }
-
-        return dp[row][col];
+        return mem[row][col];
     }
 }

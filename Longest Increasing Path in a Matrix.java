@@ -17,7 +17,7 @@ nums = [
   [3,4,5],
   [3,2,6],
   [2,2,1]
-]
+] 
 Return 4
 The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
  */

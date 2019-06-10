@@ -37,9 +37,6 @@ Your output answer is guaranteed to be fitted in a 32-bit integer.
  *  比如：SubSet (取或者不取)
  *  
  * 这里给出的是第一种的实现方案。
- *
- * 该题的 Fellow Up 可以参见：
- * 
  */
 class Solution {
     public int findTargetSumWays(int[] nums, int S) {
@@ -206,6 +203,10 @@ class Solution {
  *  https://github.com/cherryljr/NowCoder/blob/master/%E6%95%B0%E7%BB%84%E5%92%8C%E4%B8%BAsum%E7%9A%84%E6%96%B9%E6%B3%95%E6%95%B0.java
  * 参考资料：
  *  http://zxi.mytechroad.com/blog/dynamic-programming/leetcode-494-target-sum/
+ *
+ * 类似的问题（Follow Up）：
+ * Last Stone Weight II:
+ *  https://github.com/cherryljr/LeetCode/tree/master/Last%20Stone%20Weight%20II
  */
 class Solution {
     public int findTargetSumWays(int[] nums, int S) {

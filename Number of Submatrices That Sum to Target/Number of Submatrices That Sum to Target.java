@@ -50,7 +50,7 @@ class Solution {
         }
 
         int count = 0;
-        for (int top = 0; top <= rows; top++) {
+        for (int top = 0; top < rows; top++) {
             for (int bottom = top + 1; bottom <= rows; bottom++) {
                 Map<Integer, Integer> map = new HashMap<>();
                 // Initialize the value of map

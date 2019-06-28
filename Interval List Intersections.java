@@ -51,8 +51,8 @@ class Solution {
         }
 
         @Override
-        public int compareTo(Point other) {
-        	// 当两个 piont 的 index相等 时，将代表开始的 point 放在前面
+        public int compareTo(Point other) {    
+            // 当两个 piont 的 index相等 时，将代表开始的 point 放在前面
             return this.index - other.index == 0 ? other.flag - this.flag : this.index - other.index;
         }
     }

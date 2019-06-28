@@ -82,7 +82,7 @@ class Solution {
         }
 
         // 将一个 list 转换成 数组 返回
-		return ans.toArray(new Interval[ans.size()]);
+	return ans.toArray(new Interval[ans.size()]);
     }
 }
 
@@ -108,37 +108,6 @@ class Solution {
  * Merge Intervals:
  *  https://github.com/cherryljr/LintCode/blob/master/Merge%20Intervals.java
  */
-class Solution {
-    public Interval[] intervalIntersection(Interval[] A, Interval[] B) {
-        if (A == null || A.length == 0 || B == null || B.length == 0) {
-            return new Interval[]{};
-        }
-
-        List<Interval> ans = new ArrayList<>();
-        int n = A.length, m = B.length;
-        int i = 0, j = 0;
-        while (i < n && j < m) {
-            Interval a = A[i], b = B[j];
-
-            // find the overlap... if there is any...
-            int startMax = Math.max(a.start, b.start);
-            int endMin = Math.min(a.end, b.end);
-            if (startMax <= endMin) {
-                ans.add(new Interval(startMax, endMin));
-            }
-
-            // move the index of two array forward
-            if (a.end == endMin) {
-                i++;
-            }
-            if (b.end == endMin) {
-                j++;
-            }
-        }
-
-        return ans.toArray(new Interval[ans.size()]);
-    }
-}
 class Solution {
     public Interval[] intervalIntersection(Interval[] A, Interval[] B) {
         if (A == null || A.length == 0 || B == null || B.length == 0) {

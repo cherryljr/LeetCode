@@ -38,7 +38,7 @@ Return 167
  * dp[i][j] 表示区间 [i...j] 所能得到的 maxCoins.
  *
  * 接下来的分析情况与 Strange Printer 有些许类似 （为了便于理解，我尽量保持二者代码的一致以便对比）总体可分为以下几个步骤：
- *  ① 我们需要枚举所有 合法的区间长度l, 并计算出它们对于的 maxCoins；
+ *  ① 我们需要枚举所有 合法的区间长度l, 并计算出它们对于的 maxCoins，这里根据题意我们可以明白需要判断的区间长度最小为3；
  *  ② 枚举所有可能的起始位置start，作为区间的左边界（起始位置start + 区间长度l <= 数组总长度len）
  *  ③ 在各个区间中，我们可以利用 pivot 作为分割点对区间进行分割以便我们计算出 maxCoins；
  *  注意，根据以上分析，这里的 pivot 代表的就是这段区间中 最后一个被引爆的气球。
@@ -82,8 +82,8 @@ class Solution {
         nums[0] = nums[len++] = 1;
         int[][] dp = new int[len][len];
 
-        // 枚举所有合法的区间长度
-        for (int l = 2; l <= len; l++) {
+        // 枚举所有需要比较判断的区间长度
+        for (int l = 3; l <= len; l++) {
             // 枚举所有可能的起始位置
             for (int start = 0; start + l <= len; start++) {
                 int end = start + l - 1;

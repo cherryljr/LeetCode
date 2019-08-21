@@ -58,11 +58,18 @@ Return 167
  *  故，整体时间复杂为：O(n^3)
  * 空间复杂度分析:
  *  动态规划需要一个二维数组，因此时间复杂度为：O(n^2)
+ * 
+ * PS.区间DP的变换点通常就是在于
+ *  1. 枚举 区间长度l 到底从多少开始（普通都是从2开始，但是不排除特殊情况）
+ *  2. pivot到底是从 start 开始，还是从 start+1 开始（但是不管怎么样，pivot必定是小于end的）
+ *  对于第一点，我们通常是根据题意的情况进行分析，看 l=2 时能否进行 merge，或者发生操作，从而对结果产生影响，如果没有意义，就从 3 开始；
+ *  对于第二点，我们可以举一个例子，长度为3，然后将 pivot 放在 start 处，根据题意看是否有意义即可，如果没有意义，就从 start+1 开始。
  *
  * 类似的问题：
  *  https://github.com/cherryljr/LeetCode/blob/master/Strange%20Printer.java
  *  https://github.com/cherryljr/LeetCode/blob/master/Minimum%20Cost%20to%20Merge%20Stones.java
  *  https://github.com/cherryljr/LintCode/blob/master/Segment%20Stones%20Merge.java
+ *  https://github.com/cherryljr/LeetCode/blob/master/Minimum%20Cost%20Tree%20From%20Leaf%20Values.java
  */
 class Solution {
     public int maxCoins(int[] iNums) {

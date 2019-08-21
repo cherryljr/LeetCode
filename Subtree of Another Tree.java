@@ -54,28 +54,23 @@ Return false.
  */
 class Solution {
     public boolean isSubtree(TreeNode s, TreeNode t) {
-        if (s == null) {
-            return false;
-        }
+        if (s == null && t == null) return true;
+        if (s == null || t == null) return false;
         if (s.val == t.val) {
-            if (isSameTree(s,t)) {
+            if (isSametree(s, t)) {
                 return true;
             }
         }
         return isSubtree(s.left, t) || isSubtree(s.right, t);
     }
-
-    public boolean isSameTree(TreeNode s, TreeNode t){
-        if (s == null && t == null) {
-            return true;
-        }
-        if (s == null || t == null) {
+    
+    private boolean isSametree(TreeNode s, TreeNode t) {
+        if (s == null && t == null) return true;
+        if (s == null || t == null) return false;
+        if (s.val != t.val) {
             return false;
         }
-        if (s.val != t.val){
-            return false;
-        }
-        return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
+        return isSametree(s.left, t.left) && isSametree(s.right, t.right);
     }
 }
 
@@ -99,24 +94,35 @@ class Solution {
  *  不仅会降低运行效率，还有栈溢出的风险。况且这些非递归的代码实现还是很简单的。
  *
  * 关于 树的序列化 可以参考：
- * https://github.com/cherryljr/LintCode/blob/master/Binary%20Tree%20Serialization.java
+ *  https://github.com/cherryljr/LintCode/blob/master/Binary%20Tree%20Serialization.java
  * 关于 KMP算法 可以参考：
- * https://github.com/cherryljr/LintCode/blob/master/KMP%20Template.java
+ *  https://github.com/cherryljr/LintCode/blob/master/KMP%20Template.java
  */
 class Solution {
     public boolean isSubtree(TreeNode s, TreeNode t) {
-        String treeS = preSerialize(s);
-        String treeT = preSerialize(t);
-
-        return kmp(treeS, treeT);
+        StringBuilder sb1 = new StringBuilder(), sb2 = new StringBuilder();
+        preSerialize(s, sb1);
+        preSerialize(t, sb2);
+        return sb1.indexOf(sb2.toString()) > -1;
+        // String sTree = preSerialize(s);
+        // String tTree = preSerialize(t);
+        // return kmp(sTree, tTree);
     }
 
-    // PreOrder Serialization (Using Stack)
-    private String preSerialize(TreeNode s) {
+    private void preSerialize(TreeNode root, StringBuilder sb) {
+        if (root == null) {
+            sb.append("# ");
+            return;
+        }
+        sb.append(root.val + ' ');
+        preSerialize(root.left, sb);
+        preSerialize(root.right, sb);
+    }
+
+    private String preSerialize(TreeNode root) {
         StringBuilder sb = new StringBuilder();
         Stack<TreeNode> stack = new Stack<TreeNode>();
-
-        stack.push(s);
+        stack.push(root);
         while (!stack.isEmpty()) {
             TreeNode curr = stack.pop();
             if (curr == null) {
@@ -129,35 +135,27 @@ class Solution {
             stack.push(curr.right);
             stack.push(curr.left);
         }
-
         return sb.toString();
     }
 
     private boolean kmp(String s, String p) {
-        if (s == null || p.length() > s.length()) {
-            return false;
-        }
-
-        char[] arr_s = s.toCharArray();
-        char[] arr_p = p.toCharArray();
-        int[] next = getNextArray(arr_p);
+        int[] nextArray = getNextArray(p.toCharArray());
+        char[] arr_s = s.toCharArray(), arr_p = p.toCharArray();
         int i = 0, j = 0;
         while (i < arr_s.length && j < arr_p.length) {
             if (arr_s[i] == arr_p[j]) {
-                i++;
-                j++;
+                i++; j++;
             } else if (j > 0) {
-                j = next[j];
+                j = nextArray[j];
             } else {
                 i++;
             }
         }
-
         return j == arr_p.length;
     }
 
     private int[] getNextArray(char[] arr) {
-        int[] next = new int[arr.length];
+        int[] next = new int[arr.length + 1];
         next[0] = -1;
         int pos = 2, cn = 0;
         while (pos < next.length) {
@@ -171,4 +169,5 @@ class Solution {
         }
         return next;
     }
+
 }

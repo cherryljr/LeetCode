@@ -67,25 +67,16 @@ class Solution {
             preSum[i] = preSum[i - 1] + stones[i - 1];
         }
 
-        // Initialize
         int[][][] dp = new int[len][len][K + 1];
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len; j++) {
-                for (int k = 0; k <= K; k++) {
-                    dp[i][j][k] = (i == j && k == 1) ? 0 : INF;
-                }
-            }
-        }
-        for (int i = 0; i < len; i++) {
-            dp[i][i][1] = 0;
-        }
-
         // 枚举区间长度
         for (int l = 2; l <= len; l++) {
-        	// 枚举起始位置
+            // 枚举起始位置
             for (int start = 0; start + l <= len; start++) {
                 int end = start + l - 1;
                 for (int k = 2; k <= K; k++) {
+                    // 要求最小值，故此处应初始化为最大值，同时防止越界。
+                    // dp[i][i][1]在创建时就为0，且不会进入该循环，所以是正确的。
+                    dp[start][end][k] = INF;
                     // 注意这里与 Burst Balloons 里不一样的是 pivot 的起始位置为 start.(不然会漏掉 dp[i][i] 的情况)
                     // 并且 pivot 每次移动 K-1 步，从而保证 [start, pivot] 肯定可以被合并
                     for (int pivot = start; pivot < end; pivot += K - 1) {
@@ -128,14 +119,10 @@ class Solution {
 
         // Initialize
         int[][] dp = new int[len][len];
-        for (int i = 0; i < len; i++) {
-            Arrays.fill(dp[i], INF);
-            dp[i][i] = 0;
-        }
-
         for (int l = 2; l <= len; l++) {
             for (int start = 0; start + l <= len; start++) {
                 int end = start + l - 1;
+                dp[start][end] = INF;
                 for (int pivot = start; pivot < end; pivot += K - 1) {
                     dp[start][end] = Math.min(dp[start][end], dp[start][pivot] + dp[pivot + 1][end]);
                 }

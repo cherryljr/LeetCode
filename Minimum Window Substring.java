@@ -7,31 +7,21 @@ T = "ABC"
 Minimum window is "BANC".
 
 Note:
-If there is no such window in S that covers all characters in T, return the empty string "".
-If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
+    1. If there is no such window in S that covers all characters in T, return the empty string "".
+    2. If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
  */
 
 /**
- * Using Sliding Window Template
- *
- * Change a little code above to solve the question “Find All Anagrams in a String”:
- *  change
- *      if (end-begin == t.length()) {
- *          result.add(begin);
- *      }
- *  to
- *      if (end-begin < len) {
- *          len = end - begin;
- *          head = begin;
- *      }
+ * Approach: Using Sliding Window Template
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n)
  *
  * Detail explanation about the template is here:
- * https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
+ *  https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
  */
 class Solution {
     public String minWindow(String s, String t) {
-        String rst = "";
-        if (t.length() > s.length()) {
+        if (s == null || t == null || s.length() < t.length()) {
             return "";
         }
 
@@ -40,44 +30,37 @@ class Solution {
             map.put(c, map.getOrDefault(c, 0) + 1);
         }
 
-        int counter = map.size();
-        int begin = 0, end = 0; // left side (begin) and right side (end) of sliding window
-        int head = 0;   // record the min window's start position
-        int len = Integer.MAX_VALUE;
-        while (end < s.length()) {
-            char c = s.charAt(end);
-            if (map.containsKey(c)) {
-                map.put(c, map.get(c) - 1);
-                if (map.get(c) == 0) {
-                    counter--;
+        // record the min window's start position
+        int startIndex = 0, minLen = Integer.MAX_VALUE;
+        int count = map.size();
+        // left side (left) and right side (right) of sliding window
+        for (int left = 0, right = 0; right < s.length(); right++) {
+            char cRight = s.charAt(right);
+            if (map.containsKey(cRight)) {
+                map.put(cRight, map.get(cRight) - 1);
+                if (map.get(cRight) == 0) {
+                    count -= 1;
                 }
             }
-            end++;
 
-            while (counter == 0) {
-                char tempc = s.charAt(begin);
-                if (map.containsKey(tempc)) {
-                    map.put(tempc, map.get(tempc) + 1);
-                    // map.get(tempc) means tempc is the start character(position) of curr window
+            while (count <= 0) {
+                char cLeft = s.charAt(left);
+                if (map.containsKey(cLeft)) {
+                    map.put(cLeft, map.get(cLeft) + 1);
+                    // map.get(cLeft) means cLeft is the start character(position) of curr window
                     // pay attention to the duplicated characters.
-                    if (map.get(tempc) > 0) {
-                        counter++;
+                    if (map.get(cLeft) >= 1) {
+                        count += 1;
                     }
                 }
-
                 // Get the min window
-                if (end - begin < len) {
-                    len = end - begin;
-                    head = begin;
+                if (right - left + 1 < minLen) {
+                    startIndex = left;
+                    minLen = right - left + 1;
                 }
-
-                begin++;
+                left++;
             }
         }
-
-        if (len == Integer.MAX_VALUE) {
-            return "";
-        }
-        return s.substring(head, head + len);
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(startIndex, startIndex + minLen);
     }
 }

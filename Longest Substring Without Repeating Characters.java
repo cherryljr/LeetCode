@@ -15,7 +15,7 @@ Note that the answer must be a substring, "pwke" is a subsequence and not a subs
  * Approach 1: Sliding Window
  * Using Sliding Window Template
  * Detail explanation about the template is here:
- * https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
+ *  https://github.com/cherryljr/LeetCode/blob/master/Sliding%20Window%20Template.java
  */
 class Solution {
     public int lengthOfLongestSubstring(String s) {
@@ -24,32 +24,30 @@ class Solution {
         }
 
         Map<Character, Integer> map = new HashMap<>();
-        int begin = 0, end = 0;
-        int len = 0;
+        int ans = 0;
         int counter = 0;
-        while (end < s.length()) {
+        for (int left = 0, right = 0; right < s.length(); right++) {
             // count > 0 means repeating character
-            char c = s.charAt(end);
-            map.put(c, map.getOrDefault(c, 0) + 1);
-            if (map.get(c) > 1) {
+            char cRight = s.charAt(right);
+            map.put(cRight, map.getOrDefault(cRight, 0) + 1);
+            if (map.get(cRight) > 1) {
                 counter++;
             }
-            end++;
 
             while (counter > 0) {
-                char tempc = s.charAt(begin);
-                map.put(tempc, map.get(tempc) - 1);
-                // After subtracting 1, 
-                // if map.get(temp) == 1 means the tempc is the duplicated character.
-                if (map.get(tempc) == 1) {
+                char cLeft = s.charAt(left);
+                map.put(cLeft, map.get(cLeft) - 1);
+                // map.get(cLeft) == 1 means the cLeft is the duplicated character, 
+                // and we have remove it, so after left++, it will be distinct.
+                if (map.get(cLeft) == 1) {
                     counter--;
                 }
-                begin++;
+                left++;
             }
-            len = Math.max(len, end - begin);
+            ans = Math.max(ans, right - left + 1);
         }
 
-        return len;
+        return ans;
     }
 }
 

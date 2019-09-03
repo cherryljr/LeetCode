@@ -39,6 +39,7 @@ Note:
  * Reference:
  *  https://github.com/cherryljr/LeetCode/blob/master/Longest%20Substring%20with%20At%20Most%20Two%20Distinct%20Characters.java
  */
+
 class Solution {
     public int subarraysWithKDistinct(int[] A, int K) {
         return countsOfSubarraysWithKDistinct(A, K) - countsOfSubarraysWithKDistinct(A, K - 1);
@@ -46,29 +47,26 @@ class Solution {
 
     // 计算所有 Distinct Number 个数小于等于 K 的 SubArray 个数之和
     // 代码基本就是采用 Sliding Window Template
-    // 与 Longest Substring with At Most Two Distinct Characters 基本相同
+    // 与 Longest Substring with At Most K Distinct Characters 基本相同
     private int countsOfSubarraysWithKDistinct(int[] A, int K) {
         Map<Integer, Integer> map = new HashMap<>();
-        int begin = 0, end = 0;
         int count = 0, ans = 0;
 
-        while (end < A.length) {
-            map.put(A[end], map.getOrDefault(A[end], 0) + 1);
-            if (map.get(A[end]) == 1) {
+        for (int left = 0, right = 0; right < A.length; right++) {
+            map.put(A[right], map.getOrDefault(A[right], 0) + 1);
+            if (map.get(A[right]) == 1) {
                 count++;
             }
-            end++;
 
             while (count > K) {
-                map.put(A[begin], map.get(A[begin]) - 1);
-                if (map.get(A[begin]) == 0) {
+                map.put(A[left], map.get(A[left]) - 1);
+                if (map.get(A[left]) == 0) {
                     count--;
                 }
-                begin++;
+                left++;
             }
-            ans += end - begin;
+            ans += right - left + 1;
         }
-
         return ans;
     }
 }

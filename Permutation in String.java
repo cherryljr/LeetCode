@@ -230,9 +230,8 @@ class Solution {
  */
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        boolean rst = false;
-        if (s1.length() > s2.length()) {
-            return rst;
+        if (s2 == null || s2.length() < s1.length()) {
+            return false;
         }
 
         Map<Character, Integer> map = new HashMap<>();
@@ -241,34 +240,29 @@ class Solution {
         }
 
         int counter = map.size();
-        int begin = 0, end = 0;
-        while (end < s2.length()) {
-            char c = s2.charAt(end);
-            if (map.containsKey(c)) {
-                map.put(c, map.get(c) - 1);
-                if (map.get(c) == 0) {
+        for (int left = 0, right = 0; right < s2.length(); right++) {
+            char cRight = s2.charAt(right);
+            if (map.containsKey(cRight)) {
+                map.put(cRight, map.get(cRight) - 1);
+                if (map.get(cRight) == 0) {
                     counter--;
                 }
             }
-            end++;
 
-            while (counter == 0) {
-                char tempc = s2.charAt(begin);
-                if (map.containsKey(tempc)) {
-                    map.put(tempc, map.get(tempc) + 1);
-                    if (map.get(tempc) > 0) {
+            while (counter <= 0) {
+                char cLeft = s2.charAt(left);
+                if (map.containsKey(cLeft)) {
+                    map.put(cLeft, map.get(cLeft) + 1);
+                    if (map.get(cLeft) > 0) {
                         counter++;
                     }
                 }
-
-                if (end - begin == s1.length()) {
-                    rst = true;
-                    return rst;
+                if (right - left + 1 == s1.length()) {
+                    return true;
                 }
-                begin++;
+                left++;
             }
         }
-
-        return rst;
+        return false;
     }
 }

@@ -129,9 +129,9 @@ class Solution {
  */
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        List<Integer> rst = new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
         if (s == null || s.length() == 0 || s.length() < p.length()) {
-            return rst;
+            return ans;
         }
 
         Map<Character, Integer> map = new HashMap<>();
@@ -139,37 +139,32 @@ class Solution {
             map.put(c, map.getOrDefault(c, 0) + 1);
         }
 
-        // begin - left of window, end - right of window
-        int begin = 0, end = 0;
         // The number of distinct characters
         int counter = map.size();
-        
-        while (end < s.length()) {
-            char c = s.charAt(end);
-            if (map.containsKey(c)){
-                map.put(c, map.get(c) - 1);
-                if (map.get(c) == 0) {
-                    counter--;
+        for (int left = 0, right = 0; right < s.length(); right++) {
+            char cRight = s.charAt(right);
+            if (map.containsKey(cRight)) {
+                map.put(cRight, map.get(cRight) - 1);
+                if (map.get(cRight) == 0) {
+                    counter -= 1;
                 }
             }
-            end++;
 
-            while (counter == 0) {
-                char tempc = s.charAt(begin);
-                if (map.containsKey(tempc)) {
-                    map.put(tempc, map.get(tempc) + 1);
-                    if (map.get(tempc) > 0) {
-                        counter++;
+            while (counter <= 0) {
+                char cLeft = s.charAt(left);
+                if (map.containsKey(cLeft)) {
+                    map.put(cLeft, map.get(cLeft) + 1);
+                    if (map.get(cLeft) > 0) {
+                        counter += 1;
                     }
                 }
-
-                if (end - begin == p.length()) {
-                    rst.add(begin);
+                if (right - left + 1 == p.length()) {
+                    ans.add(left);
                 }
-                begin++;
+                left++;
             }
         }
 
-        return rst;
+        return ans;
     }
 }

@@ -22,7 +22,7 @@ Note:
  */
 
 /**
- * Approach: Simulate stack operations
+ * Approach: Simulate stack operations (Using Stack)
  * Loop through the pushed array:
  *  1. Keep pushing pushed elements into stack if the top element on the stack is different from the current one of popped;
  *  2. Keep poping out of the top element if it is same as the current one of popped;

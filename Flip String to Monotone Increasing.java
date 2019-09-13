@@ -43,7 +43,7 @@ class Solution {
         for (int i = 1; i <= len; i++) {
             left[i] = left[i - 1] + S.charAt(i - 1) - '0';
         }
-        // 将右半部分全部转换成'1'，即计算左半部分有多少个'0'即可
+        // 将右半部分全部转换成'1'，即计算右半部分有多少个'0'即可
         for (int i = len - 1; i >= 0; i--) {
             right[i] = right[i + 1] + '1' - S.charAt(i);
         }

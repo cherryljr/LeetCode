@@ -40,7 +40,39 @@ Constraints:
  */
 
 /**
- * Approach: DP
+ * Approach 1: DFS + Memory Search
+ * 使用记忆化搜索即可轻松解决，如果把 Map 化成 数组 来存储状态的话速度会快上不少。
+ * 
+ * 时间复杂度：O(d * f * target)
+ * 空间复杂度：O(d * target)
+ */
+class Solution {
+    private static final int MOD = 1000000007;
+    private Map<String, Integer> mem = new HashMap<>();
+
+    public int numRollsToTarget(int d, int f, int target) {
+        if (d == 0 && target == 0) {
+            return 1;
+        }
+        if (d <= 0 || target <= 0) {
+            return 0;
+        }
+        String key = d + "_" + target;
+        if (mem.containsKey(key)) {
+            return mem.get(key);
+        }
+
+        int ans = 0;
+        for (int i = 1; i <= f && i <= target; i++) {
+            ans = (ans + numRollsToTarget(d - 1, f, target - i)) % MOD;
+        }
+        mem.put(key, ans);
+        return ans;
+    }
+}
+
+/**
+ * Approach 2: DP
  * 比较明显的一道 DP 问题，有f个面的d个骰子的组合总共有 d^f 个。
  * 如果采用 dfs 一一进行枚举的话，肯定会爆掉的。
  * 但是我们可以发现这是一个无后效性问题，因此可以采用 DP 来解决。

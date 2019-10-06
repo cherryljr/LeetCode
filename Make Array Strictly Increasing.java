@@ -68,19 +68,15 @@ class Solution {
         Arrays.fill(replace[0], 1);
 
         for (int i = 1; i < m; i++) {
-            // 这里使用到了空间换时间的做法，维护 minKeep 和 minReplace，避免了每次重新开始进行一次 O(n) 的遍历
-            int minKeep = INF, minReplace = INF;
             for (int j = 0; j < n; j++) {
-                // 前一个字符被替换成 arr2[j-1] 且当前字符需要被替换成 arr2[j]
-                if (j > 0) minReplace = Math.min(minReplace, replace[i - 1][j - 1] + 1);
-                // 前一个字符被替换成 arr2[j] 且当前字符进行保留
-                if (arr1[i] > replaceList.get(j)) minKeep = Math.min(minKeep, replace[i - 1][j]);
                 // 前一个字符与当前字符都进行保留
-                if (arr1[i] > arr1[i - 1]) keep[i] = keep[i - 1];
+                if (arr1[i] > arr1[i - 1]) keep[i] = Math.min(keep[i], keep[i - 1]);
+                // 前一个字符被替换成 arr2[j] 且当前字符进行保留
+                if (arr1[i] > replaceList.get(j)) keep[i] = Math.min(keep[i], replace[i - 1][j]);
                 // 前一个字符进行保留，当前字符替换成 arr2[j]
-                if (replaceList.get(j) > arr1[i - 1]) replace[i][j] = keep[i - 1] + 1;
-                keep[i] = Math.min(keep[i], minKeep);
-                replace[i][j] = Math.min(replace[i][j], minReplace);
+                if (replaceList.get(j) > arr1[i - 1]) replace[i][j] = Math.min(replace[i][j], keep[i - 1] + 1);
+                // 前一个字符被替换成 arr2[j-1] 且当前字符需要被替换成 arr2[j]
+                if (j > 0) replace[i][j] = Math.min(replace[i][j], replace[i - 1][j - 1] + 1);
             }
         }
 

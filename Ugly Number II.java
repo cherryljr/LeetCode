@@ -58,7 +58,7 @@ class Solution {
  * 空间复杂度：O(n)
  *
  * Fellow Up:
- *  Super Ugly Number:
+ *  Super Ugly Number: https://github.com/cherryljr/LeetCode/blob/master/Super%20Ugly%20Number.java
  *  
  * 参考资料：
  *  http://zxi.mytechroad.com/blog/math/leetcode-264-ugly-number-ii/

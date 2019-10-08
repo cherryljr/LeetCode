@@ -32,7 +32,7 @@ Note:
  * 空间复杂度：O(n)
  *
  * Reference:
- *  Ugly Number II
+ *  Ugly Number II: https://github.com/cherryljr/LeetCode/blob/master/Ugly%20Number%20II.java
  */
 class Solution {
     public int nthSuperUglyNumber(int n, int[] primes) {

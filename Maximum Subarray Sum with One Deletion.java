@@ -46,6 +46,9 @@ Constraints:
  * g(1) = Math.max(g(0)+arr[1],f(0))//题目提到至少保留一个元素，所以必须要选f(0)，即g(0)要足够小（这里将其初始化为-0x3f3f3f3f）
  *
  * 最后遍历一遍 keep 数组和 delete 数组找出最大值即可。
+ *
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n)
  */
 class Solution {
     public int maximumSum(int[] arr) {

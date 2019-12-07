@@ -38,6 +38,7 @@ class Solution {
 
         int[] ans = new int[queries.length];
         for (int i = 0; i < queries.length; i++) {
+            // index是从0开始的，所以index+1才表示个数，因此结果需要多-1才行
             ans[i] = n - upperBound(arr, getCount(queries[i])) - 1;
         }
         return ans;

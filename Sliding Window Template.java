@@ -26,38 +26,46 @@
  *  A: https://github.com/cherryljr/LeetCode/blob/master/Substring%20with%20Concatenation%20of%20All%20Words.java
  */
 /*
-This Template is based on question: Find All Anagrams in a String
-Description
+This Template is based on question: 438.Find All Anagrams in a String
+
 Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
 Strings consists of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
+
 The order of output does not matter.
 
-Example:
+Example 1:
+Input:
+s: "cbaebabacd" p: "abc"
+Output:
+[0, 6]
+Explanation:
+The substring with start index = 0 is "cba", which is an anagram of "abc".
+The substring with start index = 6 is "bac", which is an anagram of "abc".
+
+Example 2:
 Input:
 s: "abab" p: "ab"
-
 Output:
 [0, 1, 2]
-
 Explanation:
 The substring with start index = 0 is "ab", which is an anagram of "ab".
 The substring with start index = 1 is "ba", which is an anagram of "ab".
 The substring with start index = 2 is "ab", which is an anagram of "ab".
  */
 
-public class Solution {
-    public List<Integer> slidingWindowTemplate(String s, String t) {
+class Solution {
+    public List<Integer> slidingWindowTemplate(String s, String p) {
         // Init a collection or int value to save the result according the question.
         List<Integer> result = new LinkedList<>();
-        if (t.length() > s.length()) {
+        if (p.length() > s.length()) {
             return result;
         }
 
-        // Create a hashmap to save the Characters of the target substring.
+        // Create a HashMap to save the Characters of the target substring.
         // map表示还缺少的字符以及对应的个数
         // (K, V) = (Character, Frequency of the Characters)
         Map<Character, Integer> map = new HashMap<>();
-        for (char c : t.toCharArray()) {
+        for (char c : p.toCharArray()) {
             map.put(c, map.getOrDefault(c, 0) + 1);
         }
 
@@ -65,17 +73,13 @@ public class Solution {
         // Must be the map size, NOT the string size because the char may be duplicate.
         int counter = map.size();
 
-        // Two Pointers: begin - left pointer of the window; end - right pointer of the window
-        int begin = 0, end = 0;
-
         // The length of the substring which match the target string.
         int len = Integer.MAX_VALUE;
-
+        // Two Pointers: begin - left pointer of the window; end - right pointer of the window
         // Loop at the beginning of the source string
-        while (end < s.length()) {
+        for (int begin = 0, end = 0; end < s.length(); end++) {
             // Get a character
             char cEnd = s.charAt(end);
-
             if (map.containsKey(cEnd)) {
                 // Plus or minus one
                 map.put(cEnd, map.get(cEnd) - 1);
@@ -85,9 +89,6 @@ public class Solution {
                     counter--;
                 }
             }
-            // 注意这里的 end++ 操作会导致 end 往后移动一个位置，
-            // 因此在后面代码中 end 代表的是 subarray 右边界后面 的那个位置。
-            end++;
 
             // Increase begin pointer to make it invalid/valid again
             while (counter == 0 /* counter condition. different question may have different condition */) {
@@ -103,7 +104,9 @@ public class Solution {
                 }
 
                 // save / update(min/max) the result if find a target
-                // result collections or result int value
+                if (end - begin + 1 == p.length()) {
+                    result.add(begin);
+                }
                 // Pay Attention Here:
                 // 该类型题目（模板）是在这里对结果进行更新或者把subarray加到结果集中，
                 // 因为进入该 while 循环的话，说明此时的 subarray 是符合我们要求的。
@@ -115,6 +118,7 @@ public class Solution {
                 // move the left bound forward
                 // make the substring(sliding window) invalid / valid again, so we can move on
                 begin++;
+
             }
 
             // 另一种做法是在这里对 result 进行更新
@@ -124,6 +128,7 @@ public class Solution {
             // end代表想要的subarray的右边界的后一个位置。
             // 这个定义在两种做法中都是一样的，因此我们只需要根据定义，在合适的地方更新结果即可
         }
+
         return result;
     }
 }

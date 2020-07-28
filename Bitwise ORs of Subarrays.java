@@ -52,20 +52,21 @@ Note:
 class Solution {
     public int subarrayBitwiseORs(int[] A) {
         Set<Integer> curr = new HashSet<>();
-        Set<Integer> rst = new HashSet<>();
+        Set<Integer> ans = new HashSet<>();
         for (int num : A) {
+            // 每次循环新建一个 nextSet,然后把当前元素 num 加入到 nextSet 中
             Set<Integer> next = new HashSet<>();
-            // 每次我们先将 num(A[i]) 这个数字加入到 nextSet 中
             next.add(num);
-            // 然后遍历上一个状态中所有的或起来的数值，并与当前数值进行或运算
+            // 然后遍历上一个状态中所有的或起来的数值，并与当前数值进行或运算。
+            // 此时 nextSet 中就是以 num 作为结尾的所有 subArray 中元素或起来的值的所有可能值
             for (int x : curr) {
                 next.add(x | num);
             }
             // 将 nextSet 中的所有元素加入到结果集当中
-            rst.addAll(next);
+            ans.addAll(next);
             // 滚动替换
             curr = next;
         }
-        return rst.size();
+        return ans.size();
     }
 }
